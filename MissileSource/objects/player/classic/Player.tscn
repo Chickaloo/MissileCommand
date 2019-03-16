@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://objects/player/classic/barrel.png" type="Texture" id=1]
+[ext_resource path="res://Barrel.gd" type="Script" id=2]
+[ext_resource path="res://objects/player/classic/turretbody.png" type="Texture" id=3]
+
+[node name="Player" type="Node2D"]
+
+[node name="Barrel" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Body" type="Sprite" parent="."]
+texture = ExtResource( 3 )
+

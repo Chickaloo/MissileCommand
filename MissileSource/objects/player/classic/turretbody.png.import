@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/icon.png-487276ed1e3a0c39cad0279d744ee560.stex"
+path="res://.import/turretbody.png-05e8f52c31aa4d5b2e6763929eb2f445.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://icon.png"
-dest_files=[ "res://.import/icon.png-487276ed1e3a0c39cad0279d744ee560.stex" ]
+source_file="res://objects/player/classic/turretbody.png"
+dest_files=[ "res://.import/turretbody.png-05e8f52c31aa4d5b2e6763929eb2f445.stex" ]
 
 [params]
 

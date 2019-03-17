@@ -8,7 +8,7 @@ func _input(event):
 		self.look_at(event.position)
 	if event is InputEventMouseButton:
 		# Spawn one bullet on mouseup
-		if !event.is_pressed():
+		if event.is_pressed():
 			self.SpawnBullet(event.position)
 	pass
 		

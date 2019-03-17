@@ -3,7 +3,7 @@ extends Sprite
 var DESTINATION = Vector2(0,0)
 var DIRECTION = Vector2(0,0)
 #var DAMAGE = 1
-var SPEED = 300
+var SPEED = 750
 var _EXPLOSION = preload("res://objects/explosion/classic/ExplosionClassic.tscn")
 
 func set_destination(dest):

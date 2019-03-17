@@ -11,9 +11,12 @@ func _ready():
 	add_child(player)
 	player.global_position = Vector2(get_viewport().size.x/2, get_viewport().size.y-64)
 	
+	# Draw 
 	
 	pass # Replace with function body.
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 #func _process(delta):
+#	SPAWN ENEMIES @ RANDOM 
+
 #	pass

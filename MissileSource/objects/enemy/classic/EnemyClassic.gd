@@ -16,16 +16,23 @@ func set_variables(dest):
 	
 	pass
 	
+
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
-	if self.global_position.distance_to(DESTINATION) < 5:
+	if self.global_position.distance_to(DESTINATION) < 1:
 		#reduce city to rubble
 		queue_free()
 		
 	var collisions = self.get_overlapping_areas()
-	if collisions.size() != 0:
-		queue_free()
+	for collision in collisions:
+		print(collision.get_parent().get_name())
+		if collision.get_parent().get_name().find("explosion") != -1:
+			queue_free()
+		if collision.get_parent().get_name().find("city") != -1:
+			queue_free()
+	
 		
 	self.global_position = self.global_position + (DIRECTION * SPEED * delta)
 	

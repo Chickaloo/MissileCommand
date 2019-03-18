@@ -13,7 +13,8 @@ func _ready():
 	add_child(player)
 	player.global_position = Vector2(get_viewport().size.x/2, get_viewport().size.y-64)
 	
-	# Draw 
+	# Draw
+	
 	
 	pass # Replace with function body.
 

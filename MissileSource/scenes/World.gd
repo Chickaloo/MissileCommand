@@ -4,7 +4,7 @@ var _PLAYER = preload("res://objects/player/classic/Player.tscn")
 var _ENEMY = preload("res://objects/enemy/classic/EnemyClassic.tscn")
 var _CITY_LIVE = preload("res://objects/city/classic/CityLiveClassic.tscn")
 var _CITY_DEAD = preload("res://objects/city/classic/CityDeadClassic.tscn")
-var _LABEL = preload("res://Text.tscn")
+var _LABEL = preload("res://scenes/Text.tscn")
 var level_label
 const _CITY_LOCATIONS = [1,2,3,5,6,7]
 var _CITY_DESTINATIONS = []
@@ -95,6 +95,6 @@ func _process(delta):
 		t.start()
 		yield(t, "timeout")
 		t.queue_free()
-		get_tree().change_scene("res://MainMenu.tscn")
+		get_tree().change_scene("res://objects/menu/MainMenu.tscn")
 
 	pass

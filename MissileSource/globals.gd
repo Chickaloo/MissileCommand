@@ -5,3 +5,5 @@ var score = 0
 var shots = 0
 var kills = 0
 var life = 0
+var enemies = 0
+var level = 0

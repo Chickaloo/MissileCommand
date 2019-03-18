@@ -16,7 +16,7 @@ func set_destination(dest):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if self.global_position.distance_to(DESTINATION) < 5:
+	if self.global_position.distance_to(DESTINATION) < 8:
 		var explosion = _EXPLOSION.instance()
 		get_parent().add_child(explosion)
 		explosion.set_pos(self.global_position)

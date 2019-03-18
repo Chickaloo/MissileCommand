@@ -30,14 +30,6 @@ margin_bottom = 329.44
 custom_fonts/font = SubResource( 1 )
 text = "> Play Classic"
 
-[node name="Exit" type="Button" parent="."]
-margin_left = 589.24
-margin_top = 426.494
-margin_right = 902.24
-margin_bottom = 517.494
-custom_fonts/font = SubResource( 1 )
-text = "> Quit"
-
 [node name="Upgrade" type="Button" parent="."]
 margin_left = 515.666
 margin_top = 332.054
@@ -45,6 +37,14 @@ margin_right = 977.666
 margin_bottom = 423.054
 custom_fonts/font = SubResource( 1 )
 text = "> Play Upgraded Ver."
+
+[node name="Exit" type="Button" parent="."]
+margin_left = 589.24
+margin_top = 426.494
+margin_right = 902.24
+margin_bottom = 517.494
+custom_fonts/font = SubResource( 1 )
+text = "> Quit"
 
 [connection signal="pressed" from="Classic" to="." method="_on_Classic_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_Exit_pressed"]

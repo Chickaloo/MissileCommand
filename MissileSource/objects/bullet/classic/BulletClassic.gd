@@ -6,6 +6,9 @@ var DIRECTION = Vector2(0,0)
 var SPEED = 750
 var _EXPLOSION = preload("res://objects/explosion/classic/ExplosionClassic.tscn")
 
+func _ready():
+	self.modulate = Color(.5+(randf()/2), .5+(randf()/2), .5+(randf()/2))
+
 func set_destination(dest):
 	DESTINATION = dest
 	var DIR = DESTINATION-self.global_position
@@ -17,10 +20,12 @@ func set_destination(dest):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if self.global_position.distance_to(DESTINATION) < 8:
-		var explosion = _EXPLOSION.instance()
+		#var explosion = _EXPLOSION.instance()
+		#get_parent().add_child(explosion)
+		#explosion.set_pos(self.global_position)
+		#explosion.set_name(self.name + "explosion")
+		var explosion = globals.Explosion.new(16, global_position, stats.PLAYER_BULLET_EXPLOSION_DAMAGE, get_parent().enemies)
 		get_parent().add_child(explosion)
-		explosion.set_pos(self.global_position)
-		explosion.set_name(self.name + "explosion")
 		queue_free()
 		
 	self.global_position = self.global_position + (DIRECTION * SPEED * delta)

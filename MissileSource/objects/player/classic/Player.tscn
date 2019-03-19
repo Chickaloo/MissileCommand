@@ -1,13 +1,17 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://objects/player/classic/barrel.png" type="Texture" id=1]
+[ext_resource path="res://objects/player/classic/turretpewpew.png" type="Texture" id=1]
 [ext_resource path="res://objects/player/Barrel.gd" type="Script" id=2]
-[ext_resource path="res://objects/player/classic/turretbody.png" type="Texture" id=3]
+[ext_resource path="res://objects/player/classic/turretboby.png" type="Texture" id=3]
 
 [node name="Player" type="Node2D"]
 
 [node name="Barrel" type="Sprite" parent="."]
+position = Vector2( 0.198608, -12.9094 )
+scale = Vector2( 0.770361, 0.770361 )
 texture = ExtResource( 1 )
+centered = false
+offset = Vector2( -72, -96 )
 script = ExtResource( 2 )
 
 [node name="Body" type="Sprite" parent="."]

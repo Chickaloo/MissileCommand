@@ -9,6 +9,7 @@ func _input(event):
 	if event is InputEventMouseButton:
 		# Spawn one bullet on mouseup
 		if event.is_pressed():
+			print("click")
 			if globals.shots > 0:
 				self.SpawnBullet(event.position)
 				globals.shots -= 1

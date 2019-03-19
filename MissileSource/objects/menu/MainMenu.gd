@@ -1,23 +1,33 @@
 extends Control
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+var TURRET_LASER_TSCN = preload("res://scenes/upgraded/assets/objects/turret_laser/turret_laser.tscn")
+var respawn = 0
+var enemy = null
+var wr = null
+var enemies = []
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	var turret = TURRET_LASER_TSCN.instance()
+	add_child(turret)
+	turret.global_position = Vector2(randi()%int(globals.VIEWPORT.size.x/2), globals.VIEWPORT.size.y-32)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _process(delta):
+	if enemies.size() == 0:
+		respawn -= delta
+		if respawn < 0:
+			respawn = 1
+			enemy = globals.AbstractEnemy.new(32, Vector2(randi()%int(globals.VIEWPORT.size.x),-10), Vector2(randi()%int(globals.VIEWPORT.size.x), globals.VIEWPORT.size.y), 200, randi()%30, 1, 1, null)
+			add_child(enemy)
+			wr = weakref(enemy)
+			enemies.append(enemy)
+			print(enemies)
 
 
 func _on_Exit_pressed():
 	get_tree().quit()
-	pass # Replace with function body.
-
 
 func _on_Classic_pressed():
 	get_tree().change_scene("res://scenes/classic/World.tscn")
-	pass # Replace with function body.
+
+func _on_Upgrade_pressed():
+	get_tree().change_scene("res://scenes/upgraded/play/Play.tscn")

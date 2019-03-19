@@ -24,6 +24,12 @@ config/icon="res://icon.png"
 
 globals="*res://globals.gd"
 
+[display]
+
+window/size/width=1366
+window/size/height=728
+
 [rendering]
 
+threads/thread_model=2
 environment/default_environment="res://default_env.tres"

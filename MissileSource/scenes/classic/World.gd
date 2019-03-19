@@ -4,7 +4,7 @@ var _PLAYER = preload("res://objects/player/classic/Player.tscn")
 var _ENEMY = preload("res://objects/enemy/classic/EnemyClassic.tscn")
 var _CITY_LIVE = preload("res://objects/city/classic/CityLiveClassic.tscn")
 var _CITY_DEAD = preload("res://objects/city/classic/CityDeadClassic.tscn")
-var _LABEL = preload("res://scenes/Text.tscn")
+var _LABEL = preload("res://scenes/classic/Text.tscn")
 var level_label
 const _CITY_LOCATIONS = [1,2,3,5,6,7]
 var _CITY_DESTINATIONS = []
@@ -58,7 +58,7 @@ func _ready():
 func level_up():
 	globals.level = globals.level + 1
 	globals.shots = globals.shots + globals.level * 15
-	globals.enemies = globals.level * 10
+	globals.enemies = globals.level * 6
 	enemies_spawned = globals.enemies
 	level_changing = 1
 	level_changing_timer = 150

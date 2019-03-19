@@ -19,5 +19,5 @@ func _on_Exit_pressed():
 
 
 func _on_Classic_pressed():
-	get_tree().change_scene("res://scenes/World.tscn")
+	get_tree().change_scene("res://scenes/classic/World.tscn")
 	pass # Replace with function body.

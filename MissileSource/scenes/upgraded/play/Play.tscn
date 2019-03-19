@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 48
+outline_size = 2
+
+[node name="Engine" type="Node2D"]
+
+[node name="LevelText" type="Label" parent="."]
+margin_left = 312.0
+margin_top = 260.0
+margin_right = 712.0
+margin_bottom = 340.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0.0823529, 0.0352941, 0.0352941, 1 )
+align = 1
+valign = 1
+
+[node name="InfoText" type="Label" parent="."]
+margin_left = 619.497
+margin_top = 3.76691
+margin_right = 1019.5
+margin_bottom = 51.7669
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0.0823529, 0.0352941, 0.0352941, 1 )
+text = "Money: $0000 Score: 00000"
+align = 2
+valign = 1
+

@@ -93,8 +93,12 @@ class BasicEnemy extends AbstractEnemy:
 		self.set_texture(image.IMAGE_ENEMY_BASIC)
 	
 	func _process(delta):
+		if global_position.distance_to(destination) < 32:
+			state = -1
+		if state == -1:		
+			globals.enemies -= 1
 		pass
-		
+
 class AsteroidEnemy extends AbstractEnemy:
 	func _init(rad, pos, dest = Vector2(globals.VIEWPORT.size.x/2,globals.VIEWPORT.size.y), spd = 50+randi()%200, hp = 20, arm = 1, dam = 5, t = null).(rad, pos, dest, spd, hp, arm, dam, t):
 		pass

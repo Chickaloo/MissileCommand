@@ -17,6 +17,7 @@ var level_changing_timer = 0
 var enemy_spawn_rate = 120
 var timer = 0
 var enemies_spawned = 0
+var enemies = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -76,10 +77,9 @@ func _process(delta):
 		if globals.enemies > 0:
 			if enemies_spawned > 0:
 				if timer%enemy_spawn_rate == 0:
-					var enemy = _ENEMY.instance()
+					var enemy = globals.BasicEnemy.new(16, Vector2(randi()%int(get_viewport().size.x), -32), _CITY_DESTINATIONS[randi()%_CITY_DESTINATIONS.size()])
 					add_child(enemy)
-					enemy.global_position = Vector2( randi()%int(get_viewport().size.x), -32 )
-					enemy.set_variables(_CITY_DESTINATIONS[randi()%_CITY_DESTINATIONS.size()])
+					enemies.append(enemy)
 					enemies_spawned -= 1
 				timer = timer + 1
 		else:

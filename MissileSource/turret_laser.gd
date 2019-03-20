@@ -83,8 +83,8 @@ func shoot_at(delta):
 	if enemy_ref.get_ref():
 		# If we can shoot
 		var enemy_loc = enemy.global_position
-		var d2e = barrel.global_position.distance_to(enemy_loc)
-		var time_to_target = sqrt(d2e*d2e/(bullet_speed*bullet_speed + enemy_speed*enemy_speed))
+		var d2e = barrel.global_position.distance_squared_to(enemy_loc)
+		var time_to_target = sqrt(d2e/(bullet_speed*bullet_speed + enemy_speed*enemy_speed))
 		enemy_burst_loc = enemy_loc + enemy.direction * enemy.speed * time_to_target
 		
 		refire_rate -= delta

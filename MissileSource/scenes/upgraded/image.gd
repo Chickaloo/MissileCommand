@@ -1,6 +1,9 @@
 # image.gd holds the image information for the textures.
 extends Node
 
+var IMAGE_CITY_LIVE
+var IMAGE_CITY_DEAD
+
 var IMAGE_TURRET_LASER_BODY
 #var IMAGE_TURRET_LASER_BODY_HIGHLIGHTS
 var IMAGE_TURRET_LASER_BARREL
@@ -21,6 +24,9 @@ var IMAGE_ENEMY_ASTEROID
 var EFFECT_GLOW_DEFAULT
 
 func _ready():
+	IMAGE_CITY_DEAD = preload("res://objects/city/classic/citydead.png")
+	IMAGE_CITY_LIVE = preload("res://objects/city/classic/citylive.png")
+	
 	IMAGE_TURRET_LASER_BARREL = preload("res://scenes/upgraded/assets/images/turret_laser_barrel.png")
 	IMAGE_TURRET_LASER_BULLET = preload("res://scenes/upgraded/assets/images/turret_laser_bullet.png")
 	

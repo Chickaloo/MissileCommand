@@ -16,7 +16,7 @@ func _process(delta):
 		respawn -= delta
 		if respawn < 0:
 			respawn = 1
-			enemy = globals.AsteroidEnemy.new(32, Vector2(randi()%int(globals.VIEWPORT.size.x),-10), Vector2(randi()%int(globals.VIEWPORT.size.x), globals.VIEWPORT.size.y), 200, randi()%30, 1, 1, null)
+			enemy = globals.AsteroidEnemy.new(32, Vector2(randi()%int(globals.VIEWPORT.size.x),-10), Vector2(randi()%int(globals.VIEWPORT.size.x), globals.VIEWPORT.size.y), 500, randi()%10, 1, 1, null)
 			add_child(enemy)
 			wr = weakref(enemy)
 			enemies.append(enemy)

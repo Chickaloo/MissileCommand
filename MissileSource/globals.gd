@@ -38,7 +38,7 @@ class Hittable extends Sprite:
 	# Init is called when .new() is used. This is primarily for instantiation.
 	# dest and spd are defaulted to 0 for immobile objects.
 	# hp and armor are defaulted to 1.
-	func _init(rad, pos, dest = Vector2(0,0), spd = 0, hp = 1, arm = 1):
+	func _init(rad = 1, pos = Vector2(0,0), dest = Vector2(0,0), spd = 0, hp = 1, arm = 1):
 		radius = rad
 		origin = pos
 		self.global_position = origin
@@ -58,13 +58,18 @@ class Hittable extends Sprite:
 		set_process(true)
 
 	func _process(delta):
+		process(delta)
+			
+	# Using a seperate process(delta) here allows us to
+	# Override the default process behavior
+	func process(delta):
 		if self.state == -1:
 			print("dead")
 			parent.enemies.erase(self)
 			set_process(false)
 			queue_free()
 			return
-			
+	
 	# damage accepts the incoming damage from a bullet.
 	func damage(dmg):
 		hitpoints -= dmg
@@ -82,10 +87,17 @@ class AbstractEnemy extends AbstractBullet:
 		#self.set_material(image.EFFECT_GLOW_DEFAULT)
 	
 	func _process(delta):
+		pass
+			
+	func post():
+		if self.state == -1:
+			globals.enemies -= 1
+			
 		if self.global_position.y > globals.VIEWPORT.size.y:
 			self.state = -1
 		
 class BasicEnemy extends AbstractEnemy:	
+
 	func _init(rad, pos, dest = Vector2(globals.VIEWPORT.size.x/2,globals.VIEWPORT.size.y), spd = 300, hp = 1, arm = 1, dam = 1, t = null).(rad, pos, dest, spd, hp, arm, dam, t):
 		pass
 		
@@ -93,12 +105,15 @@ class BasicEnemy extends AbstractEnemy:
 		self.set_texture(image.IMAGE_ENEMY_BASIC)
 	
 	func _process(delta):
-		if global_position.distance_to(destination) < 32:
-			state = -1
-		if state == -1:		
-			globals.enemies -= 1
 		pass
 
+	func collide():
+		# If bullet hits target, damage the target and remove self
+		if globals.collision(self, target):
+			target.damage(self.damage)
+			state = -1
+			return
+			
 class AsteroidEnemy extends AbstractEnemy:
 	func _init(rad, pos, dest = Vector2(globals.VIEWPORT.size.x/2,globals.VIEWPORT.size.y), spd = 50+randi()%200, hp = 20, arm = 1, dam = 5, t = null).(rad, pos, dest, spd, hp, arm, dam, t):
 		pass
@@ -109,8 +124,6 @@ class AsteroidEnemy extends AbstractEnemy:
 	func _process(delta):
 		self.rotation = self.rotation + 1*delta
 		
-		# Add cosmetic particle effect here
-	
 		
 # AbstractBullet is any projectile that does damage, including certain
 # enemies.
@@ -132,9 +145,6 @@ class AbstractBullet extends Hittable:
 			wr = weakref(t)
 		self.z_index = -50
 		
-	func _ready():
-		._ready()
-		
 	func _process(delta):
 		if target != null:
 			if !wr.get_ref():
@@ -142,15 +152,10 @@ class AbstractBullet extends Hittable:
 			
 		move(delta)
 		
-	func move(delta):			
+	func move(delta):
 		# If there still is a target to collide against
 		if target != null:
-			# If bullet hits target, damage the target and remove self
-			if globals.collision(self, target):
-				target.damage(self.damage)
-				set_process(false)
-				queue_free()
-				return
+			collide()
 		
 		# Move bullet
 		var movement = speed * direction * delta
@@ -160,6 +165,19 @@ class AbstractBullet extends Hittable:
 		# If bullet has *gone too far*, despawn it.
 		if self.distance_travelled > globals.MAX_DISTANCE:
 			state = -1
+		
+		post()	
+			
+	func collide():
+		# If bullet hits target, damage the target and remove self
+		if globals.collision(self, target):
+			target.damage(self.damage)
+			set_process(false)
+			queue_free()
+			return
+			
+	func post():
+		pass
 		
 class LaserBullet extends AbstractBullet:
 		
@@ -201,7 +219,8 @@ class Explosion extends Hittable:
 				# Erase so we only damage each target once
 				target_list.erase(target)
 				target.damage(self.damage)
-		
+				globals.score += 100
+						
 		if self.transform.get_scale().x > max_scale:
 			self.state = -1
 			
@@ -232,6 +251,21 @@ class DetonatingBullet extends AbstractBullet:
 			queue_free()
 			
 		return
+		
+class LiveCity extends Hittable:
+	func _init(rad, pos).(rad, pos):
+		pass
+	
+	func _ready():
+		set_texture(image.IMAGE_CITY_LIVE)
+		
+	func process(delta):
+		if state == -1:
+			print("City died")
+			set_texture(image.IMAGE_CITY_DEAD)
+			get_parent()._CITIES.erase(self)
+			globals.life -= 1
+			set_process(false)
 		
 # Collision returns whether or not two hittable objects have collided
 func collision(a, b):

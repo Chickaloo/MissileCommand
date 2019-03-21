@@ -8,6 +8,7 @@ var _LABEL = preload("res://scenes/classic/Text.tscn")
 var level_label
 const _CITY_LOCATIONS = [1,2,3,5,6,7]
 var _CITY_DESTINATIONS = []
+var _CITIES = []
 var _CITY_STATUS = [1,1,1,1,1,1]
 var _X = 0
 var _Y = 0
@@ -44,15 +45,9 @@ func _ready():
 	# Draw Cities
 	var cityid = 0
 	for i in _CITY_LOCATIONS:
-		var city = _CITY_LIVE.instance()
+		var city = globals.LiveCity.new(32, Vector2(_X*i/8, _Y-32))
 		add_child(city)
-		var loc = Vector2(_X*i/8, _Y-32)
-		city.global_position = loc
-		print(city.global_position)
-		_CITY_DESTINATIONS.push_back(loc)
-		city.set_name(str(cityid))
-		_CITY_STATUS[cityid] = cityid
-		cityid = cityid + 1
+		_CITIES.append(city)
 	
 	pass # Replace with function body.
 
@@ -77,7 +72,8 @@ func _process(delta):
 		if globals.enemies > 0:
 			if enemies_spawned > 0:
 				if timer%enemy_spawn_rate == 0:
-					var enemy = globals.BasicEnemy.new(16, Vector2(randi()%int(get_viewport().size.x), -32), _CITY_DESTINATIONS[randi()%_CITY_DESTINATIONS.size()])
+					var target = randi()%_CITIES.size()
+					var enemy = globals.BasicEnemy.new(16, Vector2(randi()%int(get_viewport().size.x), -32), _CITIES[target].global_position, 300, 4, 1, 1, _CITIES[target])
 					add_child(enemy)
 					enemies.append(enemy)
 					enemies_spawned -= 1

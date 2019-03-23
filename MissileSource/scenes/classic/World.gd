@@ -45,7 +45,7 @@ func _ready():
 	# Draw Cities
 	var cityid = 0
 	for i in _CITY_LOCATIONS:
-		var city = globals.LiveCity.new(32, Vector2(_X*i/8, _Y-32))
+		var city = globals.LiveCity.new(Vector2(_X*i/8, _Y-32), Vector2(0,0))
 		add_child(city)
 		_CITIES.append(city)
 	
@@ -59,6 +59,7 @@ func level_up():
 	level_changing = 1
 	level_changing_timer = 150
 	enemy_spawn_rate = enemy_spawn_rate-10
+	stats.ENEMY_BASIC_MOVEMENT_SPEED += 10*globals.level
 	
 	level_label.set_text("Level: " + str(globals.level))
 
@@ -73,7 +74,7 @@ func _process(delta):
 			if enemies_spawned > 0:
 				if timer%enemy_spawn_rate == 0:
 					var target = randi()%_CITIES.size()
-					var enemy = globals.BasicEnemy.new(16, Vector2(randi()%int(get_viewport().size.x), -32), _CITIES[target].global_position, 300, 4, 1, 1, _CITIES[target])
+					var enemy = globals.BasicEnemy.new(Vector2(randi()%int(get_viewport().size.x), -32),_CITIES[target].global_position, _CITIES[target])
 					add_child(enemy)
 					enemies.append(enemy)
 					enemies_spawned -= 1

@@ -2,69 +2,199 @@ extends Node2D
 
 var PLAYER_TSCN = preload("res://objects/player/classic/Player.tscn")
 var TURRET_LASER_TSCN = preload("res://scenes/upgraded/assets/objects/turret_laser/turret_laser.tscn")
+var UPGRADE_TSCN = preload("res://Upgrade System.tscn")
 var player
 var refire_rate = 0
-var bursting = false
-var burst_cd = .1
-var burst_size = 3
 var respawn = 0
-var enemy = null
-var enemy_burst_loc = null
-var wr = null
 var enemies = []
+var spawner
+var info_text
+var level_text
+var paused = false
+var shopping = false
+var shopping_spawned = false
+var print_level_text_timer = 3
+var death_timer = 5
+
+class Spawner extends Node:
+	var parent
+	
+	var enemies_to_spawn = 0
+	var asteroid_chance = 90
+	var min_delay = 3
+	var max_delay = 1
+	var spawn = 0
+	
+	func _init():
+		globals.level = 0
+		globals.score = 0
+		globals.shots = 0
+		globals.money = 0
+		globals.kills = 0
+		globals.life = 20
+		globals.enemies = 0
+		
+	func level_up():
+		globals.level += 1
+		globals.score += 1000 * (globals.level-1)
+		globals.money += 1000 * (globals.level-1)
+		globals.life = stats.PLAYER_MAX_HP
+		
+		min_delay = 4*(globals.level/(globals.level+2))
+		
+		if min_delay < -2:
+			min_delay = 0
+			
+		enemies_to_spawn = 5 + 8*(globals.level-1)
+		asteroid_chance = 95 - 1*globals.level
+		
+		globals.shots = globals.shots + 20*globals.level
+		
+		# Basic Enemy Data
+		stats.ENEMY_BASIC_DAMAGE = 2 + globals.level
+		stats.ENEMY_BASIC_HP = (.2*globals.level)*(.2*globals.level)
+		stats.ENEMY_BASIC_MOVEMENT_SPEED = 160 * ((6*globals.level)/float((4*globals.level+20)))
+		stats.ENEMY_BASIC_VALUE = 100 + 25 * globals.level
+		
+		# ASTEROID Enemy Data
+		stats.ENEMY_ASTEROID_DAMAGE = 5 + globals.level
+		stats.ENEMY_ASTEROID_HP = 10 + 2 * globals.level
+		stats.ENEMY_ASTEROID_MOVEMENT_SPEED = 35 + 10 * ((5*globals.level)/float((4*globals.level+20)))
+		stats.ENEMY_ASTEROID_VALUE = 250 + 50 * globals.level
+
+		set_process(true)
+		
+	func _ready():
+		parent = get_parent()
+		
+	func _process(delta):
+		if parent.enemies.size() == 0 and self.enemies_to_spawn == 0:
+			parent.print_level_text_timer = 3
+			print(globals.level)
+			if globals.level != 0:
+				parent.shopping = true
+				globals.shopping = true
+			set_process(false)
+		elif enemies_to_spawn > 0:
+			spawn -= delta
+			if spawn < 0:
+				var enemy
+				if randi()%abs(100)>asteroid_chance:
+					enemy = globals.AsteroidEnemy.new(Vector2(randi()%int(globals.VIEWPORT.size.x),-10), Vector2(randi()%int(globals.VIEWPORT.size.x), globals.VIEWPORT.size.y))
+				else:
+					enemy = globals.BasicEnemy.new(Vector2(randi()%int(globals.VIEWPORT.size.x),-10), Vector2(randi()%int(globals.VIEWPORT.size.x), globals.VIEWPORT.size.y))
+				parent.add_child(enemy)
+				parent.enemies.append(enemy)
+				enemies_to_spawn -= 1
+				spawn = randf()*max_delay+.02
+				
+	func interim():
+		return parent.enemies.size() == 0 and self.enemies_to_spawn == 0
+
+func spawn_turret_laser():
+	var turret = TURRET_LASER_TSCN.instance()
+	add_child(turret)
+	turret.global_position = Vector2(randi()%int(globals.VIEWPORT.size.x), globals.VIEWPORT.size.y-58)
+	
+
+func _unhandled_input(event):
+	if event is InputEventKey:
+		if event.pressed and event.scancode == KEY_ESCAPE:
+			if paused:
+				print("unpausing")
+				level_text.set_text("")
+				for c in get_children():
+					c.set_process(true)
+			else:
+				print("pausing")
+				level_text.set_text(" - P A U S E D - ")
+				for c in get_children():
+					c.set_process(false)
+			paused = !paused
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	
 	# Spawn player in center
 	var player = PLAYER_TSCN.instance()
 	add_child(player)
-	player.global_position = Vector2(globals.VIEWPORT.size.x/2, globals.VIEWPORT.size.y-32)
+	player.global_position = Vector2(globals.VIEWPORT.size.x/2, globals.VIEWPORT.size.y-60)
 	
-	var turret = TURRET_LASER_TSCN.instance()
-	add_child(turret)
-	turret.global_position = Vector2(randi()%int(globals.VIEWPORT.size.x), globals.VIEWPORT.size.y-32)
-
-func _process(delta):
+	# Draw floor
+	var floor_tile
+	var i = 0
+	while i < globals.VIEWPORT.size.x+100:
+		floor_tile = Sprite.new()
+		floor_tile.set_texture(image.IMAGE_PLAY_SCENE_FOREGROUND_FLOOR_TILING)
+		floor_tile.global_position = Vector2(i, globals.VIEWPORT.size.y-16)
+		add_child(floor_tile)
+		floor_tile.set_process(false)
 		
-	# Test Enemy Hit Code
-	if enemy == null:
-		respawn -= delta
-		if respawn < 0:
-			respawn = 3
-			print(respawn)
-			enemy = globals.AbstractEnemy.new(32, Vector2(randi()%int(globals.VIEWPORT.size.x),-10), Vector2(randi()%int(globals.VIEWPORT.size.x), globals.VIEWPORT.size.y), 200, randi()%30, 1, 1, null)
-			wr = weakref(enemy)
-			add_child(enemy)
-			enemies.append(enemy)
+		floor_tile = Sprite.new()
+		floor_tile.set_texture(image.IMAGE_PLAY_SCENE_FOREGROUND_FLOOR_TILING)
+		floor_tile.modulate = Color(.4, .4, .4)
+		floor_tile.global_position = Vector2(i+30, globals.VIEWPORT.size.y-30)
+		floor_tile.z_index = -55
+		add_child(floor_tile)
+		floor_tile.set_process(false)
+		
+		i+= 100
+	
+	# Draw bright trees
+	var tree
+	var c
+	var z
+	i = 0
+	while i < globals.VIEWPORT.size.x:
+		i += randi()%100
+		c = .2 + .2*(randi()%5)
+		z = -50 * (1-c)
+		tree = Sprite.new()
+		tree.set_texture(image.IMAGE_PLAY_SCENE_BACKGROUND_TREE)
+		tree.modulate = Color(c, c, c)
+		tree.global_position = Vector2(i, globals.VIEWPORT.size.y-52+(z/2))
+		tree.scale = Vector2(1 - (2 * randi()%2), 1)
+		tree.z_index = z
+		add_child(tree)
+		tree.set_process(false)
+		
+	for c in get_children():
+		if c.name == "LevelText":
+			level_text = c
+			print(c.name)
+		if c.name == "InfoText":
+			info_text = c
+			print(c.name)
 
-	if bursting == true:
-		if burst_size == 0:
-			bursting = false
+	spawner = Spawner.new()
+	add_child(spawner)	
+	
+func _process(delta):
+
+	# If we are dead
+	if globals.life < 1:
+		level_text.set_text("Game Over!\nScore: " + str(globals.score))
+		if death_timer > 0:
+			death_timer -= delta
 		else:
-			burst_cd -= delta
-			if burst_cd < 0:
-				burst_cd = .1
-				
-				#fire
-				var laser
-				if wr.get_ref():
-					laser = globals.LaserBullet.new(8, Vector2(globals.VIEWPORT.size.x/2, globals.VIEWPORT.size.y-32), Vector2(enemy_burst_loc.x+randi()%50,enemy_burst_loc.y+randi()%50), 800, 1, 1, 1, enemy)
-				else:
-					laser = globals.LaserBullet.new(8, Vector2(globals.VIEWPORT.size.x/2, globals.VIEWPORT.size.y-32), Vector2(enemy_burst_loc.x+randi()%50,enemy_burst_loc.y+randi()%50), 800, 1, 1, 1, null)						
-				#add_child(laser)
-			
-				burst_size -= 1
-	else:
-		refire_rate -= delta
-		if refire_rate < 0:
-			if wr.get_ref():
-				enemy_burst_loc = enemy.global_position
+			get_tree().change_scene("res://objects/menu/MainMenu.tscn")
+
+	# If game is live
+	elif !paused:
+		# Update status text
+		info_text.set_text("HP: " + str(globals.life) + " Shots: " + str(globals.shots) + " Score: " +  str(globals.score) + " Enemies Left: " + str(spawner.enemies_to_spawn))
+		
+		# If level is ended:
+		if spawner.interim():
+			if shopping:
+				if !shopping_spawned:
+					shopping_spawned = true
+					add_child(UPGRADE_TSCN.instance())
+			elif print_level_text_timer > 0:
+				print_level_text_timer -= delta
+				level_text.set_text("Level " + str(globals.level+1))
 			else:
-				enemy = null
-			bursting = true
-			refire_rate = 1
-			burst_cd = 0
-			burst_size = 3
-			
-	if !wr.get_ref():
-		enemy = null
+				print_level_text_timer = 3
+				level_text.set_text("")
+				spawner.level_up()
+	elif shopping:
+		pass

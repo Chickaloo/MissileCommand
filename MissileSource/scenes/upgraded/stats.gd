@@ -1,17 +1,30 @@
 extends Node
 
 # Player Turret Data
-var PLAYER_BULLET_EXPLOSION_DAMAGE = 5
-var PLAYER_BULLET_EXPLOSION_SIZE = 2	# Maximum times larger than original explosion can be
-var PLAYER_BULLET_SPEED = 200			# Pixels per second
+var PLAYER_BULLET_EXPLOSION_DAMAGE = 2
+var PLAYER_BULLET_EXPLOSION_DAMAGE_COST = 500
+var PLAYER_BULLET_EXPLOSION_SIZE = 1.5	# Maximum times larger than original explosion can be
+var PLAYER_BULLET_EXPLOSION_SIZE_COST = 1000	# Maximum times larger than original explosion can be
+var PLAYER_BULLET_SPEED = 800			# Pixels per second
+var PLAYER_BULLET_COLOR = Color(2, 2, 2)
+var PLAYER_MAX_HP = 20
+var PLAYER_MAX_HP_COST = 200
 
 # Laser Turret Data
+var TURRET_LASER_COUNT = 0
+var TURRET_LASER_COUNT_COST = 5000
+var TURRET_LASER_BULLET_COLOR = Color(0, 1.3, 0)
 var TURRET_LASER_BULLET_DAMAGE = 1
+var TURRET_LASER_BULLET_DAMAGE_COST = 500
+var TURRET_LASER_BULLET_EXPLOSION_COLOR = Color(0, 2, 0)
+
 var TURRET_LASER_BULLET_RADIUS = 8
-var TURRET_LASER_BULLET_SPEED = 500		# Pixels per second
+var TURRET_LASER_BULLET_SPEED = 400		# Pixels per second
+var TURRET_LASER_BULLET_SPEED_COST = 250		# Pixels per second
 var TURRET_LASER_BURST_SIZE = 1			# Bullets per attack
-var TURRET_LASER_COOLDOWN = 3			# Seconds
-var TURRET_LASER_INACCURACY = 50		# Max number of pixels target can be off (both x and y)
+var TURRET_LASER_COOLDOWN = 2			# Seconds
+var TURRET_LASER_COOLDOWN_COST = 1500
+var TURRET_LASER_INACCURACY = 20		# Max number of pixels target can be off (both x and y)
 
 var TURRET_MISSILE_BULLET_DAMAGE = 2
 var TURRET_MISSILE_EXPLOSION_DAMAGE = 4
@@ -19,12 +32,16 @@ var TURRET_MISSILE_EXPLOSION_DAMAGE = 4
 # Basic Enemy Data
 var ENEMY_BASIC_DAMAGE = 1
 var ENEMY_BASIC_HP = 1
-var ENEMY_BASIC_MOVEMENT_SPEED = 200
+var ENEMY_BASIC_RADIUS = 16
+var ENEMY_BASIC_MOVEMENT_SPEED = 80
+var ENEMY_BASIC_VALUE = 100
 
-# Meteor Enemy Data
-var ENEMY_METEOR_DAMAGE = 5
-var ENEMY_METEOR_HP = 10
-var ENEMY_METEOR_MOVEMENT_SPEED = 50
+# ASTEROID Enemy Data
+var ENEMY_ASTEROID_DAMAGE = 5
+var ENEMY_ASTEROID_HP = 10
+var ENEMY_ASTEROID_RADIUS = 32
+var ENEMY_ASTEROID_MOVEMENT_SPEED = 35
+var ENEMY_ASTEROID_VALUE = 250
 
 # Upgrade information
 var UPGRADE_INCREMENT_PLAYER_BULLET_EXPLOSION_DAMAGE = 2

@@ -2,26 +2,20 @@ extends Control
 
 var TURRET_LASER_TSCN = preload("res://scenes/upgraded/assets/objects/turret_laser/turret_laser.tscn")
 var respawn = 0
-var enemy = null
-var wr = null
 var enemies = []
 
 func _ready():
 	var turret = TURRET_LASER_TSCN.instance()
 	add_child(turret)
 	turret.global_position = Vector2(randi()%int(globals.VIEWPORT.size.x/2), globals.VIEWPORT.size.y-32)
-
+	
 func _process(delta):
-	if enemies.size() == 0:
-		respawn -= delta
-		if respawn < 0:
-			respawn = 1
-			enemy = globals.AsteroidEnemy.new(32, Vector2(randi()%int(globals.VIEWPORT.size.x),-10), Vector2(randi()%int(globals.VIEWPORT.size.x), globals.VIEWPORT.size.y), 500, randi()%10, 1, 1, null)
-			add_child(enemy)
-			wr = weakref(enemy)
-			enemies.append(enemy)
-			print(enemies)
-
+	respawn -= delta
+	if respawn < 0:
+		respawn = 3
+		var enemy = globals.AsteroidEnemy.new(Vector2(randi()%int(globals.VIEWPORT.size.x),-10), Vector2(randi()%int(globals.VIEWPORT.size.x), globals.VIEWPORT.size.y))
+		add_child(enemy)
+		enemies.append(enemy)
 
 func _on_Exit_pressed():
 	get_tree().quit()

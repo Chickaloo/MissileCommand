@@ -11,7 +11,7 @@ script = ExtResource( 1 )
 texture = ExtResource( 2 )
 
 [node name="Barrel" type="Sprite" parent="."]
-position = Vector2( 0.397209, -17.6363 )
+position = Vector2( 0, -18 )
 scale = Vector2( 0.6934, 0.6934 )
 z_index = -1
 texture = ExtResource( 3 )

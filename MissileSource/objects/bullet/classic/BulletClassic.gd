@@ -24,7 +24,7 @@ func _process(delta):
 		#get_parent().add_child(explosion)
 		#explosion.set_pos(self.global_position)
 		#explosion.set_name(self.name + "explosion")
-		var explosion = globals.Explosion.new(16, global_position, stats.PLAYER_BULLET_EXPLOSION_DAMAGE, get_parent().enemies)
+		var explosion = globals.Explosion.new(16, global_position, stats.PLAYER_BULLET_EXPLOSION_DAMAGE)
 		get_parent().add_child(explosion)
 		queue_free()
 		

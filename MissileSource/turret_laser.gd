@@ -26,13 +26,9 @@ var parent
 func _init():
 	damage = stats.TURRET_LASER_BULLET_DAMAGE
 	bullet_speed = stats.TURRET_LASER_BULLET_SPEED
-	burst_size = stats.TURRET_LASER_BURST_SIZE
 	refire_rate = stats.TURRET_LASER_COOLDOWN
 	spread = stats.TURRET_LASER_INACCURACY
 	
-	# that is to say, are we shooting a burst at an enemy?
-	bursting = false
-	burst_cd = .1
 	enemy = null
 	enemy_speed = null
 	enemy_direction = null
@@ -45,8 +41,6 @@ func _ready():
 	damage = 1
 	bullet_speed = stats.TURRET_LASER_BULLET_SPEED
 	burst_size = stats.TURRET_LASER_BURST_SIZE
-	refire_rate = .1
-	spread = 1
 	
 	# that is to say, are we shooting a burst at an enemy?
 	bursting = false
@@ -61,7 +55,6 @@ func _ready():
 		if n.get_name() == "Barrel":
 			barrel = n
 			
-	print(barrel)
 	parent = get_parent()
 	set_process(true)
 
@@ -81,36 +74,30 @@ func _process(delta):
 func shoot_at(delta):
 	# If the enemy exists
 	if enemy_ref.get_ref():
-		# If we can shoot
 		var enemy_loc = enemy.global_position
-		var dv = sqrt(enemy_speed*enemy_speed + bullet_speed*bullet_speed)
+		var dv = sqrt(enemy_speed*enemy_speed + stats.TURRET_LASER_BULLET_SPEED*stats.TURRET_LASER_BULLET_SPEED)
 		var ns = enemy_speed/dv
-		enemy_burst_loc = enemy_loc + enemy_direction * ns * global_position.distance_to(enemy_loc)
-		#var d2e = barrel.global_position.distance_squared_to(enemy_loc)
-		#var time_to_target = sqrt(d2e/(bullet_speed*bullet_speed + enemy_speed*enemy_speed))
-		#enemy_burst_loc = enemy_loc + enemy.direction * enemy.speed * time_to_target
+		enemy_burst_loc = enemy_loc + enemy_direction * ns * (global_position.distance_to(enemy_loc)-84)
 		
 		refire_rate -= delta
 		if refire_rate < 0:
+			# If we can shoot
 		
 			# Calculate where to shoot at
-			var target = Vector2(enemy_burst_loc.x + randi()%spread, enemy_burst_loc.y + randi()%spread)
+			var target = Vector2(enemy_burst_loc.x + randi()%stats.TURRET_LASER_INACCURACY, enemy_burst_loc.y + randi()%stats.TURRET_LASER_INACCURACY)
 			
 			# I can just dynamically reference stats zzz then no need for upgrade()
 			# Fix later
-			var laser = globals.LaserBullet.new(
-				stats.TURRET_LASER_BULLET_RADIUS, 
-				barrel.global_position,		
-				target,
-				bullet_speed,
-				1, #HP, Unused
-				1, #Armor, Unused
-				damage,
-				enemy)
+			
+			var rot = barrel.global_transform.get_rotation()
+			var dir = Vector2(cos(rot), sin(rot)) * 84
+			var laser = globals.LaserBullet.new(barrel.global_position+dir, target)
+			var expl = globals.AnimExplosion.new(barrel.global_position+dir)
 				
 			parent.add_child(laser)
+			parent.add_child(expl)
 			
-			refire_rate = .05
+			refire_rate = stats.TURRET_LASER_COOLDOWN
 		# end if refire_rate 
 			
 	else:
@@ -119,7 +106,7 @@ func shoot_at(delta):
 	
 func get_target():
 	if parent.enemies.size() > 0:
-		enemy = parent.enemies[0]
+		enemy = parent.enemies[randi()%parent.enemies.size()]
 		enemy_ref = weakref(enemy)
 		if enemy_ref.get_ref():
 			enemy_speed = enemy.speed

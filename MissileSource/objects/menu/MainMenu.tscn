@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://objects/menu/MainMenu.gd" type="Script" id=1]
 [ext_resource path="res://Nootdorp Regular Demo.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://objects/menu/mainmenu.png" type="Texture" id=3]
+[ext_resource path="res://objects/menu/fps.gd" type="Script" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 62
@@ -43,6 +44,11 @@ text = "> Quit"
 position = Vector2( 512, 300 )
 z_index = -999
 texture = ExtResource( 3 )
+
+[node name="Label" type="Label" parent="."]
+margin_right = 111.0
+margin_bottom = 52.0
+script = ExtResource( 4 )
 
 [connection signal="pressed" from="Classic" to="." method="_on_Classic_pressed"]
 [connection signal="pressed" from="Upgrade" to="." method="_on_Upgrade_pressed"]

@@ -21,6 +21,9 @@ var IMAGE_TURRET_PLAYER_BULLET_DETONATING_EXPLOSION
 var IMAGE_ENEMY_BASIC
 var IMAGE_ENEMY_ASTEROID
 
+var IMAGE_PLAY_SCENE_FOREGROUND_FLOOR_TILING
+var IMAGE_PLAY_SCENE_BACKGROUND_TREE
+
 var EFFECT_GLOW_DEFAULT
 
 func _ready():
@@ -29,7 +32,7 @@ func _ready():
 	
 	IMAGE_TURRET_LASER_BARREL = preload("res://scenes/upgraded/assets/images/turret_laser_barrel.png")
 	IMAGE_TURRET_LASER_BULLET = preload("res://scenes/upgraded/assets/images/turret_laser_bullet.png")
-	
+	IMAGE_TURRET_LASER_BULLET_IMPACT = preload("res://scenes/upgraded/assets/images/turret_laser_bullet_impact.png")
 	IMAGE_TURRET_PLAYER_BARREL = preload("res://scenes/upgraded/assets/images/turret_player_barrel.png")
 	IMAGE_TURRET_PLAYER_BODY = preload("res://scenes/upgraded/assets/images/turret_player_body.png")
 	IMAGE_TURRET_PLAYER_BULLET_DETONATING = preload("res://scenes/upgraded/assets/images/turret_player_bullet_detonating.png")
@@ -39,6 +42,9 @@ func _ready():
 	IMAGE_ENEMY_BASIC = preload("res://objects/enemy/classic/enemy.png")
 	
 	IMAGE_ENEMY_ASTEROID = preload("res://scenes/upgraded/assets/images/enemy_asteroid.png")
+	
+	IMAGE_PLAY_SCENE_FOREGROUND_FLOOR_TILING = preload("res://scenes/upgraded/assets/images/play_scene_foreground_floor_tiling.png")
+	IMAGE_PLAY_SCENE_BACKGROUND_TREE = preload("res://scenes/upgraded/assets/images/play_scene_background_tree.png")
 
 	EFFECT_GLOW_DEFAULT = CanvasItemMaterial.new()
 	EFFECT_GLOW_DEFAULT.blend_mode = 1

@@ -19,3 +19,11 @@ stream = ExtResource( 3 )
 volume_db = -17.719
 autoplay = true
 
+[node name="Button" type="Button" parent="."]
+margin_left = 1315.39
+margin_top = 10.1437
+margin_right = 1355.39
+margin_bottom = 30.1437
+text = "Quit"
+
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

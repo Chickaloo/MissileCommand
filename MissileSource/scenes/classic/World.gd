@@ -95,3 +95,6 @@ func _process(delta):
 		get_tree().change_scene("res://objects/menu/MainMenu.tscn")
 
 	pass
+
+func _on_Button_pressed():
+	get_tree().change_scene("res://objects/menu/MainMenu.tscn")

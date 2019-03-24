@@ -3,7 +3,7 @@
 [ext_resource path="res://objects/menu/MainMenu.gd" type="Script" id=1]
 [ext_resource path="res://Nootdorp Regular Demo.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://objects/menu/fps.gd" type="Script" id=3]
-[ext_resource path="res://scenes/upgraded/assets/images/play_scene_background_gradient.png" type="Texture" id=4]
+[ext_resource path="res://scenes/upgraded/assets/images/mainmenu.png" type="Texture" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 62
@@ -28,12 +28,12 @@ custom_fonts/font = SubResource( 1 )
 text = "> Play Classic"
 
 [node name="Upgrade" type="Button" parent="Node2D"]
-margin_left = 902.012
+margin_left = 965.946
 margin_top = 375.586
-margin_right = 1364.01
+margin_right = 1303.95
 margin_bottom = 466.586
 custom_fonts/font = SubResource( 1 )
-text = "> Play Upgraded Ver."
+text = "> Play Upgrade"
 
 [node name="Exit" type="Button" parent="Node2D"]
 margin_left = 976.946

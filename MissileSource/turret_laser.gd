@@ -118,7 +118,6 @@ func get_target():
 			enemy_ref = null
 		
 func clean_target():
-	print("cleaned")
 	#clean up enemy references safely, and stop shooting.
 	enemy = null
 	enemy_speed = null

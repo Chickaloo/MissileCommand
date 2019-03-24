@@ -22,6 +22,7 @@ var IMAGE_ENEMY_BASIC
 var IMAGE_ENEMY_ZIGZAG
 var IMAGE_ENEMY_SPLITTER
 var IMAGE_ENEMY_ASTEROID
+var IMAGE_ENEMY_EXPLOSION
 
 var IMAGE_PLAY_SCENE_FOREGROUND_FLOOR_TILING
 var IMAGE_PLAY_SCENE_BACKGROUND_TREE
@@ -50,6 +51,7 @@ func _ready():
 	IMAGE_ENEMY_ZIGZAG = preload("res://objects/enemy/classic/enemy.png")
 	IMAGE_ENEMY_SPLITTER = preload("res://scenes/upgraded/assets/images/enemy_splitter.png")
 	IMAGE_ENEMY_ASTEROID = preload("res://scenes/upgraded/assets/images/enemy_asteroid.png")
+	IMAGE_ENEMY_EXPLOSION = preload("res://scenes/upgraded/assets/images/enemy_explosion.png.png")
 	
 	IMAGE_PLAY_SCENE_FOREGROUND_FLOOR_TILING = preload("res://scenes/upgraded/assets/images/play_scene_foreground_floor_tiling.png")
 	IMAGE_PLAY_SCENE_BACKGROUND_TREE = preload("res://scenes/upgraded/assets/images/play_scene_background_tree.png")

@@ -112,7 +112,6 @@ func spawn_turret_laser():
 	var turret = TURRET_LASER_TSCN.instance()
 	add_child(turret)
 	turret.global_position = Vector2(randi()%int(globals.VIEWPORT.size.x), globals.VIEWPORT.size.y-58)
-	
 
 func _unhandled_input(event):
 	if event is InputEventKey:

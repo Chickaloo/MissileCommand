@@ -107,9 +107,9 @@ class AbstractEnemy extends Hittable:
 			var htext = HealthText.new(self.damage)
 			parent.add_child(htext)
 			htext.rect_global_position = self.global_position
-			var explosion = globals.AnimExplosion.new(self.global_position)
+			var explosion = globals.EnemyExplosion.new(self.global_position)
 			globals.life -= damage
-			explosion.max_scale = 1.5
+			explosion.max_scale = 5
 			parent.add_child(explosion)
 			parent.enemies.erase(self)
 			self.state = -2
@@ -412,6 +412,30 @@ class AnimExplosion extends Explosion:
 	# Replace instances of Vector2(0,0) with constant null vector
 	func _init(pos).(1, pos, 0):
 		pass
+		
+	func pre(delta):
+		self.transform = self.transform.scaled(scale_factor)
+		self.global_position = origin
+		self.radius *= (scale_factor.x)
+		
+		if radius > max_rad:
+			queue_free()
+			
+class EnemyExplosion extends Explosion:
+	
+	# Replace instances of Vector2(0,0) with constant null vector
+	func _init(pos).(1, pos, 0):
+		self.transform = self.transform.scaled(Vector2(.3,.3))
+		
+	func _ready():
+		set_texture(image.IMAGE_ENEMY_EXPLOSION)
+		
+		self.modulate = Color(5,3,0)
+		self.material = image.EFFECT_GLOW_DEFAULT
+		max_scale = 3
+		max_rad = 16 * max_scale
+		scale_factor = Vector2(1.5, 1.5)
+		self.radius = 16 * .3
 		
 	func pre(delta):
 		self.transform = self.transform.scaled(scale_factor)

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/mainmenu.wav-322d31ea613dced2c2c5572eec7ac1de.sample"
+
+[deps]
+
+source_file="res://scenes/upgraded/assets/images/mainmenu.wav"
+dest_files=[ "res://.import/mainmenu.wav-322d31ea613dced2c2c5572eec7ac1de.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=true
+compress/mode=0

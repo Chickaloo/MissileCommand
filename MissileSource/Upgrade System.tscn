@@ -44,6 +44,15 @@ margin_bottom = 300.523
 custom_fonts/font = SubResource( 1 )
 text = "HP Cost"
 
+[node name="Info Text" type="Label" parent="Node2D2"]
+margin_left = 364.613
+margin_top = 681.48
+margin_right = 689.613
+margin_bottom = 763.48
+custom_fonts/font = SubResource( 1 )
+text = "Current     Cost to
+Value        Upgrade"
+
 [node name="AdditionalTurretCost" type="Label" parent="Node2D2"]
 margin_left = 523.237
 margin_top = 457.662

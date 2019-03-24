@@ -89,7 +89,7 @@ class AbstractEnemy extends Hittable:
 	func _process(delta):
 		pass
 			
-	func prFe(delta):
+	func pre(delta):
 		if self.state < 0:
 			globals.enemies -= 1
 		if self.state == -1:
@@ -117,6 +117,7 @@ class AbstractEnemy extends Hittable:
 			explosion.max_scale = 5
 			parent.add_child(explosion)
 			parent.enemies.erase(self)
+			globals.enemies -= 1
 			self.state = -2
 		
 class BasicEnemyTrail extends Sprite:
@@ -349,7 +350,7 @@ class DespawningAudio extends AudioStreamPlayer:
 		
 	func _ready():
 		self.play()
-		self.volume_db = -20
+		self.volume_db = -30
 		
 	func _process(delta):
 		sound_timer -= delta

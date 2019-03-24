@@ -15,6 +15,8 @@ var shopping = false
 var shopping_spawned = false
 var print_level_text_timer = 3
 var death_timer = 5
+var final_score = 0
+var run_once = false
 
 class Spawner extends Node:
 	var parent
@@ -136,6 +138,8 @@ func _ready():
 	add_child(player)
 	player.global_position = Vector2(globals.VIEWPORT.size.x/2, globals.VIEWPORT.size.y-60)
 	
+	run_once = true
+	
 	# Draw floor
 	var floor_tile
 	var i = 0
@@ -225,13 +229,15 @@ func _ready():
 	add_child(spawner)	
 	
 func _process(delta):
-
 	# If we are dead
 	if globals.life < 1:
-		level_text.set_text("Game Over!\nScore: " + str(globals.score))
+		if run_once:
+			level_text.set_text("Game Over!\nScore: " + str(globals.score))
+			run_once = false
 		if death_timer > 0:
 			death_timer -= delta
 		else:
+			stats.reset()
 			get_tree().change_scene("res://objects/menu/MainMenu.tscn")
 
 	# If game is live
@@ -268,3 +274,7 @@ func _on_TextureButton_pressed():
 			c.set_process(false)
 	paused = !paused
 	globals.paused = paused
+
+func _on_MainMenu_pressed():
+	stats.reset()
+	get_tree().change_scene("res://objects/menu/MainMenu.tscn")

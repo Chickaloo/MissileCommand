@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Rolemusic_-_04_-_The_Pirate_And_The_Dancer.wav-f1fcd934e6dbac4cb39fd044cf9361b2.sample"
+
+[deps]
+
+source_file="res://scenes/upgraded/assets/images/Rolemusic_-_04_-_The_Pirate_And_The_Dancer.wav"
+dest_files=[ "res://.import/Rolemusic_-_04_-_The_Pirate_And_The_Dancer.wav-f1fcd934e6dbac4cb39fd044cf9361b2.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=true
+compress/mode=0

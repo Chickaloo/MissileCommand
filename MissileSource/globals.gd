@@ -104,6 +104,9 @@ class AbstractEnemy extends Hittable:
 			
 	func post():
 		if self.global_position.y > globals.VIEWPORT.size.y-32:
+			var ea = globals.DespawningAudio.new(image.SOUND_EXPLOSION)
+			parent.add_child(ea)
+			
 			var htext = HealthText.new(self.damage)
 			parent.add_child(htext)
 			htext.rect_global_position = self.global_position
@@ -301,6 +304,9 @@ class LaserBullet extends AbstractBullet:
 		
 	func post():
 		if self.state == -1:
+			var lba = DespawningAudio.new(image.SOUND_TURRET_LASER_HIT)
+			parent.add_child(lba)
+			
 			var lbi = LaserBulletImpact.new()
 			parent.add_child(lbi)
 			lbi.global_position = self.global_position
@@ -467,6 +473,9 @@ class DetonatingBullet extends AbstractBullet:
 		
 		# If bullet reached its destination, spawn an explosion object.
 		if self.distance_travelled > self.max_distance:
+			var ea = globals.DespawningAudio.new(image.SOUND_EXPLOSION)
+			parent.add_child(ea)
+			
 			var explosion = globals.Explosion.new(32, self.global_position, stats.PLAYER_BULLET_EXPLOSION_DAMAGE)
 			parent.add_child(explosion)
 			set_process(false)

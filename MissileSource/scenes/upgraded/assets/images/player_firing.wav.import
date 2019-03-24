@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/player_firing.wav-409c86ce4a4ec8a56171f3caee57ba5a.sample"
+
+[deps]
+
+source_file="res://scenes/upgraded/assets/images/player_firing.wav"
+dest_files=[ "res://.import/player_firing.wav-409c86ce4a4ec8a56171f3caee57ba5a.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

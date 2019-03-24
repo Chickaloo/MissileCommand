@@ -32,7 +32,11 @@ var IMAGE_PLAY_SCENE_BACKGROUND_HOUSE
 
 var EFFECT_GLOW_DEFAULT
 
+
+var SOUND_PLAYER_FIRING
 var SOUND_TURRET_LASER_FIRING
+var SOUND_TURRET_LASER_HIT
+var SOUND_EXPLOSION
 
 func _ready():
 	IMAGE_CITY_DEAD = preload("res://objects/city/classic/citydead.png")
@@ -62,4 +66,7 @@ func _ready():
 	EFFECT_GLOW_DEFAULT = CanvasItemMaterial.new()
 	EFFECT_GLOW_DEFAULT.blend_mode = 1
 	
+	SOUND_PLAYER_FIRING = "res://scenes/upgraded/assets/images/player_firing.wav"
 	SOUND_TURRET_LASER_FIRING = "res://scenes/upgraded/assets/images/turret_laser_firing.wav"
+	SOUND_TURRET_LASER_HIT = "res://scenes/upgraded/assets/images/enemy_hit.wav"
+	SOUND_EXPLOSION = "res://scenes/upgraded/assets/images/enemy_explosion.wav"

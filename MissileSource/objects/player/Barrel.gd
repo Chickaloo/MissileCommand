@@ -15,6 +15,8 @@ func _input(event):
 				globals.shots -= 1
 
 func SpawnBullet(destination):
+	var ba = globals.DespawningAudio.new(image.SOUND_PLAYER_FIRING)
+	get_parent().get_parent().add_child(ba)
 	var bullet = globals.DetonatingBullet.new(self.global_position, destination)
 	get_parent().get_parent().add_child(bullet)
 	shots_fired = shots_fired + 1

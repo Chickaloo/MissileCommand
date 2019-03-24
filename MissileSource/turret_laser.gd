@@ -63,8 +63,7 @@ func _process(delta):
 	if enemy == null:
 		target_cooldown -= delta
 		if target_cooldown < 0:
-			target_cooldown = 1
-			print("getting target")
+			target_cooldown = .1 
 			get_target()
 	else:
 		if enemy_burst_loc != null:
@@ -96,6 +95,8 @@ func shoot_at(delta):
 				
 			parent.add_child(laser)
 			parent.add_child(expl)
+			
+			parent.add_child(globals.DespawningAudio.new(image.SOUND_TURRET_LASER_FIRING))
 			
 			refire_rate = stats.TURRET_LASER_COOLDOWN
 		# end if refire_rate 

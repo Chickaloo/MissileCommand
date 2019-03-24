@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/turret_laser_firing.wav-5c6d1a7a63fb5d48621398661519fb94.sample"
+
+[deps]
+
+source_file="res://scenes/upgraded/assets/images/turret_laser_firing.wav"
+dest_files=[ "res://.import/turret_laser_firing.wav-5c6d1a7a63fb5d48621398661519fb94.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

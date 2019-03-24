@@ -40,27 +40,39 @@ class Spawner extends Node:
 		globals.money += 1000 * (globals.level-1)
 		globals.life = stats.PLAYER_MAX_HP
 		
-		min_delay = 4*(globals.level/(globals.level+2))
-		
-		if min_delay < -2:
-			min_delay = 0
 			
-		enemies_to_spawn = 5 + 8*(globals.level-1)
+		enemies_to_spawn = 5 + 8*(globals.level)
+		var level_time = 10 + 2 * globals.level
+		max_delay = level_time/float(enemies_to_spawn)
 		asteroid_chance = 95 - 1*globals.level
 		
-		globals.shots = globals.shots + 20*globals.level
+		globals.shots = globals.shots + 29990*globals.level
 		
 		# Basic Enemy Data
 		stats.ENEMY_BASIC_DAMAGE = 2 + globals.level
-		stats.ENEMY_BASIC_HP = (.2*globals.level)*(.2*globals.level)
+		stats.ENEMY_BASIC_HP = int((.2*globals.level)*(.2*globals.level))
 		stats.ENEMY_BASIC_MOVEMENT_SPEED = 160 * ((6*globals.level)/float((4*globals.level+20)))
 		stats.ENEMY_BASIC_VALUE = 100 + 25 * globals.level
 		
+		# Zigzag Enemy Data
+		stats.ENEMY_ZIGZAG_DAMAGE = 1 + globals.level
+		stats.ENEMY_ZIGZAG_HP = 1 + .3 * globals.level
+		stats.ENEMY_ZIGZAG_MOVEMENT_SPEED = 120 + 160 * ((globals.level)/float((globals.level+20)))
+		stats.ENEMY_ZIGZAG_VALUE = stats.ENEMY_BASIC_VALUE * 2
+		
+		# Splitting Enemy Data
+		stats.ENEMY_SPLITTER_HP = 2 + 2 * globals.level
+		stats.ENEMY_SPLITTER_MOVEMENT_SPEED = 30
+		stats.ENEMY_SPLITTER_VALUE = stats.ENEMY_BASIC_VALUE
+		stats.ENEMY_SPLITTER_COUNT = 1 + int((.2*globals.level)*(.2*globals.level))
+		stats.ENEMY_SPLITTER_DAMAGE = stats.ENEMY_BASIC_DAMAGE * stats.ENEMY_SPLITTER_COUNT
+		stats.ENEMY_SPLITTER_TIMER = 5
+		
 		# ASTEROID Enemy Data
 		stats.ENEMY_ASTEROID_DAMAGE = 5 + globals.level
-		stats.ENEMY_ASTEROID_HP = 10 + 2 * globals.level
-		stats.ENEMY_ASTEROID_MOVEMENT_SPEED = 35 + 10 * ((5*globals.level)/float((4*globals.level+20)))
-		stats.ENEMY_ASTEROID_VALUE = 250 + 50 * globals.level
+		stats.ENEMY_ASTEROID_HP = 2 + 8 * globals.level
+		stats.ENEMY_ASTEROID_MOVEMENT_SPEED = 25 + 30 * ((5*globals.level)/float((4*globals.level+20)))
+		stats.ENEMY_ASTEROID_VALUE = 250 + 50 * globals.level + stats.ENEMY_ASTEROID_HP * 10
 
 		set_process(true)
 		
@@ -70,7 +82,6 @@ class Spawner extends Node:
 	func _process(delta):
 		if parent.enemies.size() == 0 and self.enemies_to_spawn == 0:
 			parent.print_level_text_timer = 3
-			print(globals.level)
 			if globals.level != 0:
 				parent.shopping = true
 				globals.shopping = true
@@ -79,14 +90,20 @@ class Spawner extends Node:
 			spawn -= delta
 			if spawn < 0:
 				var enemy
-				if randi()%abs(100)>asteroid_chance:
-					enemy = globals.AsteroidEnemy.new(Vector2(randi()%int(globals.VIEWPORT.size.x),-10), Vector2(randi()%int(globals.VIEWPORT.size.x), globals.VIEWPORT.size.y))
+				var type = randi()%9
+				if type == 0:
+					enemy = globals.ZigzagEnemy.new(Vector2(randi()%int(globals.VIEWPORT.size.x),-10), Vector2(randi()%int(globals.VIEWPORT.size.x), globals.VIEWPORT.size.y))
+				elif type == 1:
+					enemy = globals.SplittingEnemy.new(Vector2(randi()%int(globals.VIEWPORT.size.x),-10), Vector2(randi()%int(globals.VIEWPORT.size.x), globals.VIEWPORT.size.y))
 				else:
-					enemy = globals.BasicEnemy.new(Vector2(randi()%int(globals.VIEWPORT.size.x),-10), Vector2(randi()%int(globals.VIEWPORT.size.x), globals.VIEWPORT.size.y))
+					if randi()%100>asteroid_chance:
+						enemy = globals.AsteroidEnemy.new(Vector2(randi()%int(globals.VIEWPORT.size.x),-10), Vector2(randi()%int(globals.VIEWPORT.size.x), globals.VIEWPORT.size.y))
+					else:
+						enemy = globals.BasicEnemy.new(Vector2(randi()%int(globals.VIEWPORT.size.x),-10), Vector2(randi()%int(globals.VIEWPORT.size.x), globals.VIEWPORT.size.y))
 				parent.add_child(enemy)
 				parent.enemies.append(enemy)
 				enemies_to_spawn -= 1
-				spawn = randf()*max_delay+.02
+				spawn = max_delay
 				
 	func interim():
 		return parent.enemies.size() == 0 and self.enemies_to_spawn == 0
@@ -111,6 +128,7 @@ func _unhandled_input(event):
 				for c in get_children():
 					c.set_process(false)
 			paused = !paused
+	globals.paused = paused
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -157,6 +175,45 @@ func _ready():
 		add_child(tree)
 		tree.set_process(false)
 		
+	# Draw shrubben
+	i = 0
+	while i < globals.VIEWPORT.size.x:
+		i += randi()%50
+		c = .2 + .2*(randi()%5)
+		z = -50 * (1-c)
+		tree = Sprite.new()
+		tree.set_texture(image.IMAGE_PLAY_SCENE_BACKGROUND_BUSH)
+		tree.modulate = Color(c, c, c)
+		tree.global_position = Vector2(i, globals.VIEWPORT.size.y-22+(z/2))
+		tree.scale = Vector2(.6, .6)
+		tree.z_index = z
+		add_child(tree)
+		tree.set_process(false)
+		
+	# Draw houses
+	i = 0
+	while i < globals.VIEWPORT.size.x:
+		i += randi()%400
+		c = .2 + .2*(randi()%5)
+		z = -60 * (1-c)
+		tree = Sprite.new()
+		tree.set_texture(image.IMAGE_PLAY_SCENE_BACKGROUND_HOUSE)
+		tree.modulate = Color(c*(randi()%2), c*(randi()%2), c*(randi()%2))
+		tree.global_position = Vector2(i, globals.VIEWPORT.size.y-42+(z/2))
+		tree.scale = Vector2(.8, .8)
+		tree.z_index = z
+		add_child(tree)
+		tree.set_process(false)
+		
+	# Draw clouds
+	i = 0
+	while i < 20:
+		i += 1
+		tree = globals.Cloud.new()
+		add_child(tree)
+		tree.global_position.x = randi()%int(globals.VIEWPORT.size.x)
+		tree.global_position.y = globals.VIEWPORT.size.y - 160 + rand_range(0, 32)
+		
 	for c in get_children():
 		if c.name == "LevelText":
 			level_text = c
@@ -181,7 +238,7 @@ func _process(delta):
 	# If game is live
 	elif !paused:
 		# Update status text
-		info_text.set_text("HP: " + str(globals.life) + " Shots: " + str(globals.shots) + " Score: " +  str(globals.score) + " Enemies Left: " + str(spawner.enemies_to_spawn))
+		info_text.set_text("HP: " + str(globals.life) + "\nScore: " +  str(globals.score) + "\nMoney: " +  str(globals.money) + "\nEnemies Left: " + str(spawner.enemies_to_spawn))
 		
 		# If level is ended:
 		if spawner.interim():
@@ -198,3 +255,17 @@ func _process(delta):
 				spawner.level_up()
 	elif shopping:
 		pass
+
+func _on_TextureButton_pressed():
+	if paused:
+		print("unpausing")
+		level_text.set_text("")
+		for c in get_children():
+			c.set_process(true)
+	else:
+		print("pausing")
+		level_text.set_text(" - P A U S E D - ")
+		for c in get_children():
+			c.set_process(false)
+	paused = !paused
+	globals.paused = paused

@@ -2,8 +2,8 @@
 
 [ext_resource path="res://objects/menu/MainMenu.gd" type="Script" id=1]
 [ext_resource path="res://Nootdorp Regular Demo.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://objects/menu/mainmenu.png" type="Texture" id=3]
-[ext_resource path="res://objects/menu/fps.gd" type="Script" id=4]
+[ext_resource path="res://objects/menu/fps.gd" type="Script" id=3]
+[ext_resource path="res://scenes/upgraded/assets/images/play_scene_background_gradient.png" type="Texture" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 62
@@ -16,40 +16,45 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
 
-[node name="Classic" type="Button" parent="."]
-margin_left = 588.653
-margin_top = 238.44
-margin_right = 901.653
-margin_bottom = 329.44
+[node name="Node2D" type="Node2D" parent="."]
+z_index = 4096
+
+[node name="Classic" type="Button" parent="Node2D"]
+margin_left = 981.801
+margin_top = 254.764
+margin_right = 1294.8
+margin_bottom = 345.764
 custom_fonts/font = SubResource( 1 )
 text = "> Play Classic"
 
-[node name="Upgrade" type="Button" parent="."]
-margin_left = 515.666
-margin_top = 332.054
-margin_right = 977.666
-margin_bottom = 423.054
+[node name="Upgrade" type="Button" parent="Node2D"]
+margin_left = 902.012
+margin_top = 375.586
+margin_right = 1364.01
+margin_bottom = 466.586
 custom_fonts/font = SubResource( 1 )
 text = "> Play Upgraded Ver."
 
-[node name="Exit" type="Button" parent="."]
-margin_left = 589.24
-margin_top = 426.494
-margin_right = 902.24
-margin_bottom = 517.494
+[node name="Exit" type="Button" parent="Node2D"]
+margin_left = 976.946
+margin_top = 494.513
+margin_right = 1289.95
+margin_bottom = 585.513
 custom_fonts/font = SubResource( 1 )
 text = "> Quit"
 
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 512, 300 )
-z_index = -999
-texture = ExtResource( 3 )
-
 [node name="Label" type="Label" parent="."]
-margin_right = 111.0
+margin_left = -2.0
+margin_right = 109.0
 margin_bottom = 52.0
-script = ExtResource( 4 )
+script = ExtResource( 3 )
 
-[connection signal="pressed" from="Classic" to="." method="_on_Classic_pressed"]
-[connection signal="pressed" from="Upgrade" to="." method="_on_Upgrade_pressed"]
-[connection signal="pressed" from="Exit" to="." method="_on_Exit_pressed"]
+[node name="Background" type="Sprite" parent="."]
+position = Vector2( 684, 384 )
+z_index = -4096
+z_as_relative = false
+texture = ExtResource( 4 )
+
+[connection signal="pressed" from="Node2D/Classic" to="." method="_on_Classic_pressed"]
+[connection signal="pressed" from="Node2D/Upgrade" to="." method="_on_Upgrade_pressed"]
+[connection signal="pressed" from="Node2D/Exit" to="." method="_on_Exit_pressed"]

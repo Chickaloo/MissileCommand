@@ -19,7 +19,7 @@ func _on_UpgradeMaxHP_pressed():
 func _on_UpgradePlayerDamage_pressed():
 	if globals.money >= stats.PLAYER_BULLET_EXPLOSION_DAMAGE_COST:
 		globals.money = int(globals.money - stats.PLAYER_BULLET_EXPLOSION_DAMAGE_COST)
-		stats.PLAYER_BULLET_EXPLOSION_DAMAGE_COST *= 1.2
+		stats.PLAYER_BULLET_EXPLOSION_DAMAGE_COST *= 1.1
 		stats.PLAYER_BULLET_EXPLOSION_DAMAGE_COST = int(stats.PLAYER_BULLET_EXPLOSION_DAMAGE_COST)
 		stats.PLAYER_BULLET_EXPLOSION_DAMAGE += 2
 
@@ -29,13 +29,13 @@ func _on_UpgradePlayerExplosionRadius_pressed():
 		globals.money = int(globals.money - stats.PLAYER_BULLET_EXPLOSION_SIZE_COST)
 		stats.PLAYER_BULLET_EXPLOSION_SIZE_COST *= 1.2
 		stats.PLAYER_BULLET_EXPLOSION_SIZE_COST = int(stats.PLAYER_BULLET_EXPLOSION_SIZE_COST)
-		stats.PLAYER_BULLET_EXPLOSION_SIZE += .2
+		stats.PLAYER_BULLET_EXPLOSION_SIZE += .25
 
 
 func _on_UpgradeTurretCount_pressed():
 	if globals.money >= stats.TURRET_LASER_COUNT_COST:
 		globals.money = int(globals.money - stats.TURRET_LASER_COUNT_COST)
-		stats.TURRET_LASER_COUNT_COST *= 1.1
+		stats.TURRET_LASER_COUNT_COST *= 2
 		stats.TURRET_LASER_COUNT_COST = int(stats.TURRET_LASER_COUNT_COST)
 		stats.TURRET_LASER_COUNT += 1
 		get_parent().spawn_turret_laser()
@@ -60,4 +60,4 @@ func _on_UpgradeTurretFiringRate_pressed():
 		globals.money = int(globals.money - stats.TURRET_LASER_COOLDOWN_COST)
 		stats.TURRET_LASER_COOLDOWN_COST *= 1.5
 		stats.TURRET_LASER_COOLDOWN_COST = int(stats.TURRET_LASER_COOLDOWN_COST)
-		stats.TURRET_LASER_COOLDOWN -= .1
+		stats.TURRET_LASER_COOLDOWN *= .9

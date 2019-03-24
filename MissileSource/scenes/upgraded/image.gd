@@ -19,12 +19,19 @@ var IMAGE_TURRET_PLAYER_BULLET_DETONATING
 var IMAGE_TURRET_PLAYER_BULLET_DETONATING_EXPLOSION
 
 var IMAGE_ENEMY_BASIC
+var IMAGE_ENEMY_ZIGZAG
+var IMAGE_ENEMY_SPLITTER
 var IMAGE_ENEMY_ASTEROID
 
 var IMAGE_PLAY_SCENE_FOREGROUND_FLOOR_TILING
 var IMAGE_PLAY_SCENE_BACKGROUND_TREE
+var IMAGE_PLAY_SCENE_BACKGROUND_CLOUD
+var IMAGE_PLAY_SCENE_BACKGROUND_BUSH
+var IMAGE_PLAY_SCENE_BACKGROUND_HOUSE
 
 var EFFECT_GLOW_DEFAULT
+
+var SOUND_TURRET_LASER_FIRING
 
 func _ready():
 	IMAGE_CITY_DEAD = preload("res://objects/city/classic/citydead.png")
@@ -39,12 +46,18 @@ func _ready():
 	IMAGE_TURRET_PLAYER_BULLET_DETONATING_EXPLOSION = preload("res://scenes/upgraded/assets/images/turret_player_bullet_detonating_explosion.png")
 
 	# Temporary
-	IMAGE_ENEMY_BASIC = preload("res://objects/enemy/classic/enemy.png")
-	
+	IMAGE_ENEMY_BASIC = preload("res://scenes/upgraded/assets/images/enemy_basic.png")
+	IMAGE_ENEMY_ZIGZAG = preload("res://objects/enemy/classic/enemy.png")
+	IMAGE_ENEMY_SPLITTER = preload("res://scenes/upgraded/assets/images/enemy_splitter.png")
 	IMAGE_ENEMY_ASTEROID = preload("res://scenes/upgraded/assets/images/enemy_asteroid.png")
 	
 	IMAGE_PLAY_SCENE_FOREGROUND_FLOOR_TILING = preload("res://scenes/upgraded/assets/images/play_scene_foreground_floor_tiling.png")
 	IMAGE_PLAY_SCENE_BACKGROUND_TREE = preload("res://scenes/upgraded/assets/images/play_scene_background_tree.png")
+	IMAGE_PLAY_SCENE_BACKGROUND_CLOUD = preload("res://scenes/upgraded/assets/images/play_scene_background_cloud.png")
+	IMAGE_PLAY_SCENE_BACKGROUND_BUSH = preload("res://scenes/upgraded/assets/images/play_scene_background_bush_purple.png")
+	IMAGE_PLAY_SCENE_BACKGROUND_HOUSE = preload("res://scenes/upgraded/assets/images/play_scene_background_house.png")
 
 	EFFECT_GLOW_DEFAULT = CanvasItemMaterial.new()
 	EFFECT_GLOW_DEFAULT.blend_mode = 1
+	
+	SOUND_TURRET_LASER_FIRING = "res://scenes/upgraded/assets/images/turret_laser_firing.wav"

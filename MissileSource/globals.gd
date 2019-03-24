@@ -9,6 +9,7 @@ var enemies = 0
 var level = 0
 var VIEWPORT
 var shopping = false
+var paused = false
 
 # MAX_DISTANCE is the diagonal length of the viewport. Bullets cannot travel more than this distance
 # and remain onscreen. Therefore, use this constant to despawn projectiles that can go offscreen.
@@ -83,6 +84,7 @@ class AbstractEnemy extends Hittable:
 
 	func _init(pos, dest, target = null).(pos, dest):
 		self.target = target
+		self.look_at(dest)
 
 	func _process(delta):
 		pass
@@ -112,7 +114,33 @@ class AbstractEnemy extends Hittable:
 			parent.enemies.erase(self)
 			self.state = -2
 		
+class BasicEnemyTrail extends Sprite:
+	var lifetime = 3
+	var origin
+	
+	func _init(pos):
+		self.set_texture(image.IMAGE_ENEMY_BASIC)
+		self.origin = pos
+		self.material = image.EFFECT_GLOW_DEFAULT
+		self.transform = self.transform.scaled(Vector2(.3,.3))
+		self.modulate = Color(5, 0, 0)
+		self.z_index = -10
+		
+	func _ready():
+		self.global_position = origin
+		
+	func _process(delta):
+		lifetime -= delta
+		self.transform = self.transform.scaled(Vector2(.99,.99))
+		self.global_position = origin
+		if lifetime < 0:
+			queue_free()
+			set_process(false)
+		
 class BasicEnemy extends AbstractEnemy:	
+
+	var glow
+	var trail_timer = .2
 
 	func _init(pos, dest, target = null).(pos, dest, target):
 		self.damage = stats.ENEMY_BASIC_DAMAGE
@@ -124,7 +152,71 @@ class BasicEnemy extends AbstractEnemy:
 		
 	func _ready():
 		self.set_texture(image.IMAGE_ENEMY_BASIC)
+		glow = Sprite.new()
+		glow.set_texture(image.IMAGE_TURRET_PLAYER_BULLET_DETONATING_EXPLOSION)
+		glow.material = image.EFFECT_GLOW_DEFAULT
+		glow.transform = glow.transform.scaled(Vector2(.2,.2))
+		glow.modulate = Color(5, 0, 0)
+		glow.z_index = -10
+		add_child(glow)
+		
+	func move(delta):
+		trail_timer -= delta
+		if trail_timer < 0:
+			trail_timer = .5
+			parent.add_child(BasicEnemyTrail.new(self.global_position-(direction*14)))
+		self.global_position += direction * speed * delta
+		glow.global_position = self.global_position - (direction*14)
+
+class ZigzagEnemy extends AbstractEnemy:	
+	var change_direction_timer
+	
+	func _init(pos, dest, target = null).(pos, dest, target):
+		self.damage = stats.ENEMY_ZIGZAG_DAMAGE
+		self.hitpoints = stats.ENEMY_ZIGZAG_HP
+		self.max_hitpoints = stats.ENEMY_ZIGZAG_HP
+		self.speed = stats.ENEMY_ZIGZAG_MOVEMENT_SPEED
+		self.radius = stats.ENEMY_ZIGZAG_RADIUS
+		self.score = stats.ENEMY_ZIGZAG_VALUE
+		
+	func _ready():
+		self.set_texture(image.IMAGE_ENEMY_ZIGZAG)		
+		change_direction_timer = stats.ENEMY_ZIGZAG_TIMER
 			
+	func move(delta):
+		change_direction_timer -= delta
+		if change_direction_timer < 0 or self.global_position.x < 0 or self.global_position.x > globals.VIEWPORT.size.x:
+			change_direction_timer = stats.ENEMY_ZIGZAG_TIMER*randf()
+			direction *= Vector2(-1, 1)
+			self.look_at(self.global_position+direction)
+		self.global_position += direction * speed * delta
+		
+class SplittingEnemy extends AbstractEnemy:	
+	var split_timer
+	var split_count
+	
+	func _init(pos, dest, target = null).(pos, dest, target):
+		self.damage = stats.ENEMY_SPLITTER_DAMAGE
+		self.hitpoints = stats.ENEMY_SPLITTER_HP
+		self.max_hitpoints = stats.ENEMY_SPLITTER_HP
+		self.speed = stats.ENEMY_SPLITTER_MOVEMENT_SPEED
+		self.radius = stats.ENEMY_SPLITTER_RADIUS
+		self.score = stats.ENEMY_SPLITTER_VALUE
+		self.split_timer = stats.ENEMY_SPLITTER_TIMER
+		self.split_count = stats.ENEMY_SPLITTER_COUNT
+		
+	func _ready():
+		self.set_texture(image.IMAGE_ENEMY_SPLITTER)
+			
+	func move(delta):
+		if state == -1:
+			for i in range(split_count):
+				var enemy = BasicEnemy.new(self.global_position, Vector2(randi()%int(globals.VIEWPORT.size.x), globals.VIEWPORT.size.y))
+				parent.add_child(enemy)
+				parent.enemies.append(enemy)
+				
+		self.global_position += direction * speed * delta
+		
 class AsteroidEnemy extends AbstractEnemy:
 	func _init(pos, dest, target = null).(pos, dest, target):
 		self.damage = stats.ENEMY_ASTEROID_DAMAGE
@@ -189,6 +281,7 @@ class AbstractBullet extends Hittable:
 					dtext.rect_position = target.global_position
 					target.damage(self.damage)
 					state = -1
+					break
 			else:
 				targets.erase(target)
 
@@ -236,6 +329,42 @@ class LaserBulletImpact extends Sprite:
 			get_parent().remove_child(self)
 			set_process(false)
 			queue_free()
+		
+class DespawningAudio extends AudioStreamPlayer:
+	
+	var sound_timer
+	
+	func _init(sound):
+		self.stream = load(sound)
+		sound_timer = self.stream.get_length()
+		
+	func _ready():
+		self.play()
+		self.volume_db = -20
+		
+	func _process(delta):
+		sound_timer -= delta
+		if sound_timer < 0:
+			queue_free()
+		
+class Cloud extends Sprite:
+	var speed = 20
+	var c
+	
+	func _ready():
+		set_texture(image.IMAGE_PLAY_SCENE_BACKGROUND_CLOUD)
+		
+		c = randi()%5 * .2
+		z_index = -1000 + c * 5
+		modulate = Color(c,c,c)
+		speed = speed + c * 20
+		scale = Vector2(c, c)
+		
+	func _process(delta):
+		self.global_position.x -= speed * delta
+		if self.global_position.x < -64:
+			self.global_position.x = globals.VIEWPORT.size.x + 64
+			self.global_position.y = globals.VIEWPORT.size.y - 160 + (50*c) + rand_range(0, 32)
 		
 class Explosion extends Hittable:
 	var max_scale

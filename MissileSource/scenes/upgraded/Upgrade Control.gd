@@ -68,6 +68,6 @@ func _process(delta):
 	turret_damage_cost_text.set_text(str(stats.TURRET_LASER_BULLET_DAMAGE_COST))
 	turret_speed_text.set_text(str(stats.TURRET_LASER_BULLET_SPEED))
 	turret_speed_cost_text.set_text(str(stats.TURRET_LASER_BULLET_SPEED_COST))
-	turret_rate_text.set_text(str(stats.TURRET_LASER_COOLDOWN))
+	turret_rate_text.set_text(str(stepify(stats.TURRET_LASER_COOLDOWN,0.01)))
 	turret_rate_cost_text.set_text(str(stats.TURRET_LASER_COOLDOWN_COST))
 

@@ -1,18 +1,21 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scenes/upgraded/play/Engine.gd" type="Script" id=1]
 [ext_resource path="res://Nootdorp Regular Demo.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://scenes/upgraded/assets/images/play_scene_background_gradient.png" type="Texture" id=3]
+[ext_resource path="res://scenes/upgraded/assets/images/play_scene_button_pause.png" type="Texture" id=4]
+[ext_resource path="res://scenes/upgraded/assets/images/turret_laser_firing.wav" type="AudioStream" id=5]
 
-[sub_resource type="DynamicFont" id=1]
-size = 48
+[sub_resource type="DynamicFont" id=2]
+size = 60
 outline_size = 2
 font_data = ExtResource( 2 )
 
-[sub_resource type="Environment" id=2]
+[sub_resource type="Environment" id=5]
 background_mode = 4
 glow_enabled = true
 glow_levels/3 = false
+glow_levels/4 = true
 glow_levels/5 = false
 glow_levels/6 = true
 glow_levels/7 = true
@@ -22,33 +25,29 @@ glow_hdr_threshold = 1.12
 glow_hdr_luminance_cap = 1.0
 glow_hdr_scale = 4.0
 
+[sub_resource type="DynamicFontData" id=6]
+font_path = "res://PixelFJVerdana12pt.ttf"
+
+[sub_resource type="DynamicFont" id=7]
+size = 12
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 6 )
+
 [node name="Engine" type="Node2D"]
 script = ExtResource( 1 )
 
 [node name="LevelText" type="Label" parent="."]
 margin_left = 484.0
-margin_top = 344.0
+margin_top = 304.0
 margin_right = 884.0
-margin_bottom = 424.0
-custom_fonts/font = SubResource( 1 )
+margin_bottom = 384.0
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0.0823529, 0.0352941, 0.0352941, 1 )
 align = 1
 valign = 1
-
-[node name="InfoText" type="Label" parent="."]
-light_mask = 0
-margin_right = 1024.0
-margin_bottom = 50.0
-custom_fonts/font = SubResource( 1 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
-custom_colors/font_color_shadow = Color( 0.0823529, 0.0352941, 0.0352941, 1 )
-align = 1
-valign = 1
-autowrap = true
-max_lines_visible = 1
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 0
@@ -57,5 +56,23 @@ z_index = -4096
 texture = ExtResource( 3 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 2 )
+environment = SubResource( 5 )
 
+[node name="TextureButton" type="TextureButton" parent="."]
+margin_left = 1315.48
+margin_top = 16.3244
+margin_right = 1347.0
+margin_bottom = 48.0
+texture_normal = ExtResource( 4 )
+
+[node name="InfoText" type="Label" parent="."]
+margin_left = 33.5644
+margin_top = 535.774
+margin_right = 73.5644
+margin_bottom = 563.774
+custom_fonts/font = SubResource( 7 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+
+[connection signal="pressed" from="TextureButton" to="." method="_on_TextureButton_pressed"]

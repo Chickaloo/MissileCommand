@@ -89,10 +89,12 @@ class AbstractEnemy extends Hittable:
 	func _process(delta):
 		pass
 			
-	func pre(delta):
+	func prFe(delta):
 		if self.state < 0:
 			globals.enemies -= 1
 		if self.state == -1:
+			var lba = DespawningAudio.new(image.SOUND_ENEMY_DEATH)
+			parent.add_child(lba)
 			var stext = ScoreText.new(score)
 			parent.add_child(stext)
 			stext.rect_global_position = self.global_position
@@ -104,7 +106,7 @@ class AbstractEnemy extends Hittable:
 			
 	func post():
 		if self.global_position.y > globals.VIEWPORT.size.y-32:
-			var ea = globals.DespawningAudio.new(image.SOUND_EXPLOSION)
+			var ea = globals.DespawningAudio.new(image.SOUND_ENEMY_CRASH)
 			parent.add_child(ea)
 			
 			var htext = HealthText.new(self.damage)
@@ -241,6 +243,7 @@ class AbstractBullet extends Hittable:
 	var damage = 1
 	var targets = []
 	var wr
+	var hit_sound = image.SOUND_TURRET_LASER_HIT
 	var color
 	
 	# Distance travelled is used to despawn bullets that have gone too far.
@@ -279,6 +282,8 @@ class AbstractBullet extends Hittable:
 			var tref = weakref(target)
 			if tref.get_ref():
 				if globals.collision(self, target):
+					var lba = DespawningAudio.new(hit_sound)
+					parent.add_child(lba)
 					var dtext = DamageText.new(self.damage, self.direction)
 					parent.add_child(dtext)
 					dtext.rect_position = target.global_position
@@ -295,6 +300,7 @@ class LaserBullet extends AbstractBullet:
 		self.speed = stats.TURRET_LASER_BULLET_SPEED
 		self.radius = stats.TURRET_LASER_BULLET_RADIUS
 		self.color = stats.TURRET_LASER_BULLET_COLOR
+		self.hit_sound = image.SOUND_TURRET_LASER_HIT
 		
 	func _ready():
 		self.set_texture(image.IMAGE_TURRET_LASER_BULLET)
@@ -303,10 +309,7 @@ class LaserBullet extends AbstractBullet:
 		self.look_at(destination)
 		
 	func post():
-		if self.state == -1:
-			var lba = DespawningAudio.new(image.SOUND_TURRET_LASER_HIT)
-			parent.add_child(lba)
-			
+		if self.state == -1:			
 			var lbi = LaserBulletImpact.new()
 			parent.add_child(lbi)
 			lbi.global_position = self.global_position

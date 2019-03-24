@@ -36,6 +36,8 @@ var EFFECT_GLOW_DEFAULT
 var SOUND_PLAYER_FIRING
 var SOUND_TURRET_LASER_FIRING
 var SOUND_TURRET_LASER_HIT
+var SOUND_ENEMY_CRASH
+var SOUND_ENEMY_DEATH
 var SOUND_EXPLOSION
 
 func _ready():
@@ -69,4 +71,7 @@ func _ready():
 	SOUND_PLAYER_FIRING = "res://scenes/upgraded/assets/images/player_firing.wav"
 	SOUND_TURRET_LASER_FIRING = "res://scenes/upgraded/assets/images/turret_laser_firing.wav"
 	SOUND_TURRET_LASER_HIT = "res://scenes/upgraded/assets/images/enemy_hit.wav"
+	SOUND_ENEMY_DEATH = "res://scenes/upgraded/assets/images/enemy_death.wav"
 	SOUND_EXPLOSION = "res://scenes/upgraded/assets/images/enemy_explosion.wav"
+	SOUND_ENEMY_CRASH = "res://scenes/upgraded/assets/images/enemy_crash.wav"
+	

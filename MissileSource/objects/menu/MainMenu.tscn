@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://objects/menu/MainMenu.gd" type="Script" id=1]
 [ext_resource path="res://Nootdorp Regular Demo.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://objects/menu/fps.gd" type="Script" id=3]
 [ext_resource path="res://scenes/upgraded/assets/images/mainmenu.png" type="Texture" id=4]
+[ext_resource path="res://scenes/upgraded/assets/images/turret_laser_firing.wav" type="AudioStream" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 62
@@ -54,6 +55,11 @@ position = Vector2( 684, 384 )
 z_index = -4096
 z_as_relative = false
 texture = ExtResource( 4 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+volume_db = -30.0
+autoplay = true
 
 [connection signal="pressed" from="Node2D/Classic" to="." method="_on_Classic_pressed"]
 [connection signal="pressed" from="Node2D/Upgrade" to="." method="_on_Upgrade_pressed"]

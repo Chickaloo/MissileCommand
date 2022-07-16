@@ -238,6 +238,38 @@ class AsteroidEnemy extends AbstractEnemy:
 	func _process(delta):
 		self.rotation = self.rotation + 1*delta
 		
+class AwesomeEnemy extends AbstractEnemy:	
+	var change_direction_timer
+	var split_timer
+	var split_count
+	
+	func _init(pos, dest, target = null).(pos, dest, target):
+		self.damage = stats.ENEMY_ZIGZAG_DAMAGE
+		self.hitpoints = stats.ENEMY_ZIGZAG_HP
+		self.max_hitpoints = stats.ENEMY_ZIGZAG_HP
+		self.speed = stats.ENEMY_ZIGZAG_MOVEMENT_SPEED
+		self.radius = stats.ENEMY_ZIGZAG_RADIUS
+		self.score = stats.ENEMY_ZIGZAG_VALUE
+		self.split_timer = stats.ENEMY_SPLITTER_TIMER
+		self.split_count = stats.AWESOME_ENEMY_SPLITTER_COUNT
+		
+	func _ready():
+		self.set_texture(image.IMAGE_ENEMY_AWESOME)		
+		change_direction_timer = stats.ENEMY_ZIGZAG_TIMER
+			
+	func move(delta):
+		change_direction_timer -= delta
+		if change_direction_timer < 0 or self.global_position.x < 0 or self.global_position.x > globals.VIEWPORT.size.x:
+			change_direction_timer = stats.ENEMY_ZIGZAG_TIMER*randf()
+			direction *= Vector2(-1, 1)
+			self.look_at(self.global_position+direction)
+		if state == -1:
+			for i in range(split_count):
+				var enemy = AwesomeEnemy.new(self.global_position, Vector2(randi()%int(globals.VIEWPORT.size.x), globals.VIEWPORT.size.y))
+				parent.add_child(enemy)
+				parent.enemies.append(enemy)
+		self.global_position += direction * speed * delta
+		
 # AbstractBullet is any projectile that does damage, including certain
 # enemies.
 class AbstractBullet extends Hittable:

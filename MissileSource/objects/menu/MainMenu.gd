@@ -107,3 +107,6 @@ func _on_Classic_pressed():
 func _on_Upgrade_pressed():
 	stats.reset()
 	get_tree().change_scene("res://scenes/upgraded/play/Play.tscn")
+
+func _on_Awesome_pressed():
+	get_tree().change_scene("res://scenes/awesome/World.tscn")

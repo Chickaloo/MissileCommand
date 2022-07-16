@@ -19,6 +19,7 @@ var IMAGE_TURRET_PLAYER_BULLET_DETONATING
 var IMAGE_TURRET_PLAYER_BULLET_DETONATING_EXPLOSION
 
 var IMAGE_ENEMY_BASIC
+var IMAGE_ENEMY_AWESOME
 var IMAGE_ENEMY_ZIGZAG
 var IMAGE_ENEMY_SPLITTER
 var IMAGE_ENEMY_ASTEROID
@@ -54,6 +55,7 @@ func _ready():
 
 	# Temporary
 	IMAGE_ENEMY_BASIC = preload("res://scenes/upgraded/assets/images/enemy_basic.png")
+	IMAGE_ENEMY_AWESOME = preload("res://scenes/upgraded/assets/images/enemy_awesome.png")
 	IMAGE_ENEMY_ZIGZAG = preload("res://objects/enemy/classic/enemy.png")
 	IMAGE_ENEMY_SPLITTER = preload("res://scenes/upgraded/assets/images/enemy_splitter.png")
 	IMAGE_ENEMY_ASTEROID = preload("res://scenes/upgraded/assets/images/enemy_asteroid.png")

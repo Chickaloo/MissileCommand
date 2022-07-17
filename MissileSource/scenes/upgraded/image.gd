@@ -38,6 +38,7 @@ var SOUND_PLAYER_FIRING
 var SOUND_TURRET_LASER_FIRING
 var SOUND_TURRET_LASER_HIT
 var SOUND_ENEMY_CRASH
+var SOUND_AWESOME_ENEMY_CRASH
 var SOUND_ENEMY_DEATH
 var SOUND_EXPLOSION
 
@@ -76,4 +77,5 @@ func _ready():
 	SOUND_ENEMY_DEATH = "res://scenes/upgraded/assets/images/enemy_death.wav"
 	SOUND_EXPLOSION = "res://scenes/upgraded/assets/images/enemy_explosion.wav"
 	SOUND_ENEMY_CRASH = "res://scenes/upgraded/assets/images/enemy_crash.wav"
-	
+	SOUND_AWESOME_ENEMY_CRASH = "res://scenes/upgraded/assets/images/cute_enemy_crash.wav"
+		

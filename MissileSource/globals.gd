@@ -236,7 +236,7 @@ class AsteroidEnemy extends AbstractEnemy:
 		self.set_texture(image.IMAGE_ENEMY_ASTEROID)
 	
 	func _process(delta):
-		self.rotation = self.rotation + 1*delta
+		self.rotation = self.rotation + 1 * delta
 		
 class AwesomeEnemy extends AbstractEnemy:	
 	var change_direction_timer
@@ -244,7 +244,7 @@ class AwesomeEnemy extends AbstractEnemy:
 	var split_count
 	
 	func _init(pos, dest, target = null).(pos, dest, target):
-		self.damage = stats.ENEMY_ZIGZAG_DAMAGE
+		self.damage = stats.ENEMY_AWESOME_DAMAGE
 		self.hitpoints = stats.ENEMY_ZIGZAG_HP
 		self.max_hitpoints = stats.ENEMY_ZIGZAG_HP
 		self.speed = stats.ENEMY_ZIGZAG_MOVEMENT_SPEED
@@ -261,7 +261,7 @@ class AwesomeEnemy extends AbstractEnemy:
 		change_direction_timer -= delta
 		if change_direction_timer < 0 or self.global_position.x < 0 or self.global_position.x > globals.VIEWPORT.size.x:
 			change_direction_timer = stats.ENEMY_ZIGZAG_TIMER*randf()
-			direction *= Vector2(-1, 1)
+			direction *= Vector2(randf(), randf())
 			self.look_at(self.global_position+direction)
 		if state == -1:
 			for i in range(split_count):
@@ -269,7 +269,16 @@ class AwesomeEnemy extends AbstractEnemy:
 				parent.add_child(enemy)
 				parent.enemies.append(enemy)
 		self.global_position += direction * speed * delta
-		
+	
+	func post():
+		if self.global_position.y > globals.VIEWPORT.size.y-32:
+			var ea = globals.DespawningAudio.new(image.SOUND_AWESOME_ENEMY_CRASH)
+			parent.add_child(ea)
+			
+			parent.enemies.erase(self)
+			globals.enemies -= 1
+			self.state = -2
+			
 # AbstractBullet is any projectile that does damage, including certain
 # enemies.
 class AbstractBullet extends Hittable:

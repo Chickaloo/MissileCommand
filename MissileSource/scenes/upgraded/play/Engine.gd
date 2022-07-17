@@ -217,13 +217,13 @@ func _ready():
 		tree.global_position.x = randi()%int(globals.VIEWPORT.size.x)
 		tree.global_position.y = globals.VIEWPORT.size.y - 160 + rand_range(0, 32)
 		
-	for c in get_children():
-		if c.name == "LevelText":
-			level_text = c
-			print(c.name)
-		if c.name == "InfoText":
-			info_text = c
-			print(c.name)
+	for child in get_children():
+		if child.name == "LevelText":
+			level_text = child
+			print(child.name)
+		if child.name == "InfoText":
+			info_text = child
+			print(child.name)
 
 	spawner = Spawner.new()
 	add_child(spawner)	

@@ -236,8 +236,43 @@ class AsteroidEnemy extends AbstractEnemy:
 		self.set_texture(image.IMAGE_ENEMY_ASTEROID)
 	
 	func _process(delta):
-		self.rotation = self.rotation + 1*delta
+		self.rotation = self.rotation + 1 * delta
 		
+class AwesomeEnemy extends AbstractEnemy:	
+	var split_timer
+	var split_count
+	
+	func _init(pos, dest, target = null).(pos, dest, target):
+		self.damage = stats.ENEMY_AWESOME_DAMAGE
+		self.hitpoints = stats.ENEMY_ZIGZAG_HP
+		self.max_hitpoints = stats.ENEMY_ZIGZAG_HP
+		self.speed = stats.ENEMY_ZIGZAG_MOVEMENT_SPEED
+		self.radius = stats.ENEMY_ZIGZAG_RADIUS
+		self.score = stats.ENEMY_AWESOME_VALUE
+		self.split_timer = stats.ENEMY_SPLITTER_TIMER
+		self.split_count = stats.AWESOME_ENEMY_SPLITTER_COUNT
+		
+	func _ready():
+		self.set_texture(image.IMAGE_ENEMY_AWESOME)		
+
+			
+	func move(delta):
+		if state == -1:
+			for i in range(split_count):
+				var enemy = AwesomeEnemy.new(self.global_position, Vector2(randi()%int(globals.VIEWPORT.size.x), globals.VIEWPORT.size.y))
+				parent.add_child(enemy)
+				parent.enemies.append(enemy)
+		self.global_position += direction * speed * delta
+	
+	func post():
+		if self.global_position.y > globals.VIEWPORT.size.y-32:
+			var ea = globals.DespawningAudio.new(image.SOUND_AWESOME_ENEMY_CRASH)
+			parent.add_child(ea)
+			
+			parent.enemies.erase(self)
+			globals.enemies -= 1
+			self.state = -2
+			
 # AbstractBullet is any projectile that does damage, including certain
 # enemies.
 class AbstractBullet extends Hittable:

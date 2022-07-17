@@ -19,6 +19,7 @@ var IMAGE_TURRET_PLAYER_BULLET_DETONATING
 var IMAGE_TURRET_PLAYER_BULLET_DETONATING_EXPLOSION
 
 var IMAGE_ENEMY_BASIC
+var IMAGE_ENEMY_AWESOME
 var IMAGE_ENEMY_ZIGZAG
 var IMAGE_ENEMY_SPLITTER
 var IMAGE_ENEMY_ASTEROID
@@ -37,6 +38,7 @@ var SOUND_PLAYER_FIRING
 var SOUND_TURRET_LASER_FIRING
 var SOUND_TURRET_LASER_HIT
 var SOUND_ENEMY_CRASH
+var SOUND_AWESOME_ENEMY_CRASH
 var SOUND_ENEMY_DEATH
 var SOUND_EXPLOSION
 
@@ -54,6 +56,7 @@ func _ready():
 
 	# Temporary
 	IMAGE_ENEMY_BASIC = preload("res://scenes/upgraded/assets/images/enemy_basic.png")
+	IMAGE_ENEMY_AWESOME = preload("res://scenes/upgraded/assets/images/enemy_awesome.png")
 	IMAGE_ENEMY_ZIGZAG = preload("res://objects/enemy/classic/enemy.png")
 	IMAGE_ENEMY_SPLITTER = preload("res://scenes/upgraded/assets/images/enemy_splitter.png")
 	IMAGE_ENEMY_ASTEROID = preload("res://scenes/upgraded/assets/images/enemy_asteroid.png")
@@ -74,4 +77,5 @@ func _ready():
 	SOUND_ENEMY_DEATH = "res://scenes/upgraded/assets/images/enemy_death.wav"
 	SOUND_EXPLOSION = "res://scenes/upgraded/assets/images/enemy_explosion.wav"
 	SOUND_ENEMY_CRASH = "res://scenes/upgraded/assets/images/enemy_crash.wav"
-	
+	SOUND_AWESOME_ENEMY_CRASH = "res://scenes/upgraded/assets/images/cute_enemy_crash.wav"
+		

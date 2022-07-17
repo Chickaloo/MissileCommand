@@ -249,7 +249,7 @@ class AwesomeEnemy extends AbstractEnemy:
 		self.max_hitpoints = stats.ENEMY_ZIGZAG_HP
 		self.speed = stats.ENEMY_ZIGZAG_MOVEMENT_SPEED
 		self.radius = stats.ENEMY_ZIGZAG_RADIUS
-		self.score = stats.ENEMY_ZIGZAG_VALUE
+		self.score = stats.ENEMY_AWESOME_VALUE
 		self.split_timer = stats.ENEMY_SPLITTER_TIMER
 		self.split_count = stats.AWESOME_ENEMY_SPLITTER_COUNT
 		
@@ -261,7 +261,7 @@ class AwesomeEnemy extends AbstractEnemy:
 		change_direction_timer -= delta
 		if change_direction_timer < 0 or self.global_position.x < 0 or self.global_position.x > globals.VIEWPORT.size.x:
 			change_direction_timer = stats.ENEMY_ZIGZAG_TIMER*randf()
-			direction *= Vector2(randf(), randf())
+			direction *= Vector2(-1, 1)
 			self.look_at(self.global_position+direction)
 		if state == -1:
 			for i in range(split_count):

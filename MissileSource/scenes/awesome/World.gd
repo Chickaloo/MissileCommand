@@ -4,7 +4,7 @@ var _PLAYER = preload("res://objects/player/classic/Player.tscn")
 var _ENEMY = preload("res://objects/enemy/classic/EnemyClassic.tscn")
 var _CITY_LIVE = preload("res://objects/city/classic/CityLiveClassic.tscn")
 var _CITY_DEAD = preload("res://objects/city/classic/CityDeadClassic.tscn")
-var _LABEL = preload("res://scenes/classic/Text.tscn")
+var _LABEL = preload("res://scenes/awesome/Text.tscn")
 var level_label
 const _CITY_LOCATIONS = [1,2,3,5,6,7]
 var _CITY_DESTINATIONS = []
@@ -25,6 +25,7 @@ func _ready():
 	globals.life = 6
 	globals.score = 0
 	globals.level = 0
+	
 	
 	var label = _LABEL.instance()
 	for c in label.get_children():
@@ -93,7 +94,16 @@ func _process(delta):
 		yield(t, "timeout")
 		t.queue_free()
 		get_tree().change_scene("res://objects/menu/MainMenu.tscn")
-
+	if globals.level >= stats.AWESOME_NUMBER:
+		level_label.set_text("Happy Birthday, Chris!\nYou are fxcking awesome!\nScore: " + str(globals.score))
+		var t = Timer.new()
+		t.set_wait_time(10)
+		t.set_one_shot(true)
+		self.add_child(t)
+		t.start()
+		yield(t, "timeout")
+		t.queue_free()
+		get_tree().change_scene("res://objects/menu/MainMenu.tscn")
 	pass
 
 func _on_Button_pressed():

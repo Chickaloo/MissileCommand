@@ -239,7 +239,6 @@ class AsteroidEnemy extends AbstractEnemy:
 		self.rotation = self.rotation + 1 * delta
 		
 class AwesomeEnemy extends AbstractEnemy:	
-	var change_direction_timer
 	var split_timer
 	var split_count
 	
@@ -255,14 +254,9 @@ class AwesomeEnemy extends AbstractEnemy:
 		
 	func _ready():
 		self.set_texture(image.IMAGE_ENEMY_AWESOME)		
-		change_direction_timer = stats.ENEMY_ZIGZAG_TIMER
+
 			
 	func move(delta):
-		change_direction_timer -= delta
-		if change_direction_timer < 0 or self.global_position.x < 0 or self.global_position.x > globals.VIEWPORT.size.x:
-			change_direction_timer = stats.ENEMY_ZIGZAG_TIMER*randf()
-			direction *= Vector2(-1, 1)
-			self.look_at(self.global_position+direction)
 		if state == -1:
 			for i in range(split_count):
 				var enemy = AwesomeEnemy.new(self.global_position, Vector2(randi()%int(globals.VIEWPORT.size.x), globals.VIEWPORT.size.y))

@@ -95,7 +95,7 @@ func _process(delta):
 		t.queue_free()
 		get_tree().change_scene("res://objects/menu/MainMenu.tscn")
 	if globals.level >= stats.AWESOME_NUMBER:
-		level_label.set_text("Happy Birthday, Chris!\nYou are fxcking awesome!\nScore: " + str(globals.score))
+		level_label.set_text("Happy 26th Birthday, Chris!\nYou are fxcking awesome!\nScore: " + str(globals.score))
 		var t = Timer.new()
 		t.set_wait_time(10)
 		t.set_one_shot(true)
